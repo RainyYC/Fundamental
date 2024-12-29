@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Fundamental</title>
+        <link rel="stylesheet" href="Style.css" id="primaryRules">
+        <link rel="icon" href="Used_art/Stage.png">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0"> <!-- Without minimum-scale footer moves like crazy -->
+        <meta name="description" content="Explore the Universe with this idle-game">
+        <script src="Code.js" defer></script>
+    </head>
+    <body class="noFocusOutline noTextSelection">
+        <aside id="loading">
+            <h1 class="biggerWord">Fundamental</h1>
+            <p class="whiteText">Game is loading. If it won't load (after trying to reload at least once), then can try to report it on <a href="https://discord.gg/JftTEJW83d" target="_blank" rel="noopener noreferrer">discord</a> or <a href="https://github.com/awWhy/Fundamental/issues" target="_blank" rel="noopener noreferrer">github</a></p>
+        </aside>
+        <div id="bigWindow" style="display: none;">
+            <button type="button" id="globalToggle0" style="display: none;">OFF</button>
+        </div>
+        <div id="alertMain" style="display: none;">
+            <div role="dialog" aria-modal="true">
+                <p id="alertText" aria-live="assertive">Welcome back</p>
+                <div>
+                    <input type="text" id="alertInput" autocomplete="off" style="display: none;">
+                    <button type="button" id="alertConfirm">确认</button>
+                    <button type="button" id="alertCancel" style="display: none;">Cancel</button>
+                </div>
+            </div>
+        </div>
+        <div id="offlineMain" style="display: none;" role="alertdialog" aria-modal="true">
+            <div role="progressbar" aria-valuetext="Missing">
+                <p>计算离线时间中，每 tick 模拟为 <span id="offlineTick">1</span> 秒。剩余 <span id="offlineRemains">0 秒</span> 待模拟 (进度 <span id="offlinePercentage">100</span>%)</p>
+                <div>
+                    <button type="button" id="offlineAccelerate">翻倍速度</button>
+                    <button type="button" id="offlineCancel">强制结束</button>
+                </div>
+            </div>
+        </div>
+        <div id="notifications" aria-live="polite"></div>
+        <main id="body" style="display: none;">
+            <div id="stageTab">
+                <section id="stageSubtabStructures" class="insideTab" aria-label="Current tab">
+                    <article id="resets" aria-label="Resets">
+                        <section id="resetStage">
+                            <p class="whiteText">
+                                当前阶段： <span id="stageWord" class="stageText bigWord">微观</span><br>
+                                重置阶段中的所有内容以<span id="stageRewardNew">获得 <span id="stageReward">0</span> 奇异夸克</span><span id="stageRewardOld">进入下一阶段</span>
+                            </p>
+                            <button type="button" id="stageReset" tabindex="-1">Missing</button>
+                        </section>
+                        <section id="reset1Main">
+                            <p class="whiteText stage1Only">
+                                <span class="orangeText">释能</span> <br>
+                                重置所有结构，返还所有 <span class="orangeText">能量</span> 或增加加成
+                            </p>
+                            <p class="whiteText stage2Only"><span class="blueText">蒸发</span><br> 将结构和升级重置为<span class="grayText">云</span>。其获取量取决于当前<span class="blueText">水滴</span>。</p>
+                            <p class="whiteText stage3Only"><img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false" id="rankImage">Current <span class="darkorchidText">Rank</span> is <span id="rankName"></span>.<br>Resets Structures, Upgrades and Stage Researches.</p>
+                            <p class="whiteText stage4Only"><span class="orchidText">Collapse</span> resets Structures, Upgrades and all Researches for <span class="cyanText">Solar mass</span> and <span class="darkorchidText">Star remnants</span>.</p>
+                            <p class="whiteText stage5Only" id="mergeResetText">Missing</p>
+                            <button type="button" id="reset1Button" tabindex="-1">Missing</button>
+                        </section>
+                    </article>
+                    <article id="buildings" aria-label="Structures">
+                        <section id="specials">
+                            <div id="special1" title="Red giants">
+                                <img src="Used_art/Red%20giant.png" alt="" loading="lazy" draggable="false">
+                                <p class="whiteText"><span id="special1Cur" class="redText">0</span><span>(+<span id="special1Get">0</span>)</span></p>
+                            </div>
+                            <div id="special2" title="Neutron stars">
+                                <img src="Used_art/Neutron%20star.png" alt="" loading="lazy" draggable="false">
+                                <p class="whiteText"><span id="special2Cur" class="darkvioletText">0</span><span>(+<span id="special2Get">0</span>)</span></p>
+                            </div>
+                            <div id="special3" title="Black holes">
+                                <img src="Used_art/Black%20hole.png" alt="" loading="lazy" draggable="false">
+                                <p class="whiteText"><span id="special3Cur" class="grayText">0</span><span>(+<span id="special3Get">0</span>)</span></p>
+                            </div>
+                        </section>
+                        <section id="building1" class="buyBuilding stageText">
+                            <img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false">
+                            <div>
+                                <p><span id="building1Name">Placeholder</span>: <span id="building1Cur" class="whiteText">0</span> <span id="building1True" class="yellowText">[0]</span></p>
+                                <p id="building1ProdDiv" title="Missing"><span>producing</span>: <span id="building1Prod" class="whiteText">0</span></p>
+                            </div>
+                            <div>
+                                <div>
+                                    <p>x<span id="building1BuyX" class="whiteText">1</span></p>
+                                    <div></div>
+                                </div>
+                                <button type="button" id="building1Btn" tabindex="-1">Need: Missing</button>
+                                <button type="button" id="toggleBuilding1" class="toggleBuilding" tabindex="-1">Auto ON</button>
+                            </div>
+                        </section>
+                        <section id="building2" class="buyBuilding stageText">
+                            <img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false">
+                            <div>
+                                <p><span id="building2Name">Placeholder</span>: <span id="building2Cur" class="whiteText">0</span> <span id="building2True" class="yellowText">[0]</span></p>
+                                <p id="building2ProdDiv" title="Missing"><span>producing</span>: <span id="building2Prod" class="whiteText">0</span></p>
+                            </div>
+                            <div>
+                                <div>
+                                    <p>x<span id="building2BuyX" class="whiteText">1</span></p>
+                                    <div></div>
+                                </div>
+                                <button type="button" id="building2Btn" tabindex="-1">Need: Missing</button>
+                                <button type="button" id="toggleBuilding2" class="toggleBuilding" tabindex="-1">Auto ON</button>
+                            </div>
+                        </section>
+                        <section id="building3" class="buyBuilding stageText">
+                            <img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false">
+                            <div>
+                                <p><span id="building3Name">Placeholder</span>: <span id="building3Cur" class="whiteText">0</span> <span id="building3True" class="yellowText">[0]</span></p>
+                                <p id="building3ProdDiv" title="Missing"><span>producing</span>: <span id="building3Prod" class="whiteText">0</span></p>
+                            </div>
+                            <div>
+                                <div>
+                                    <p>x<span id="building3BuyX" class="whiteText">1</span></p>
+                                    <div></div>
+                                </div>
+                                <button type="button" id="building3Btn" tabindex="-1">Need: Missing</button>
+                                <button type="button" id="toggleBuilding3" class="toggleBuilding" tabindex="-1">Auto ON</button>
+                            </div>
+                        </section>
+                        <section id="building4" class="buyBuilding stageText">
+                            <img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false">
+                            <div>
+                                <p><span id="building4Name">Placeholder</span>: <span id="building4Cur" class="whiteText">0</span> <span id="building4True" class="yellowText">[0]</span></p>
+                                <p id="building4ProdDiv" title="Missing"><span>producing</span>: <span id="building4Prod" class="whiteText">0</span></p>
+                            </div>
+                            <div>
+                                <div>
+                                    <p>x<span id="building4BuyX" class="whiteText">1</span></p>
+                                    <div></div>
+                                </div>
+                                <button type="button" id="building4Btn" tabindex="-1">Need: Missing</button>
+                                <button type="button" id="toggleBuilding4" class="toggleBuilding" tabindex="-1">Auto ON</button>
+                            </div>
+                        </section>
+                        <section id="building5" class="buyBuilding stageText">
+                            <img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false">
+                            <div>
+                                <p><span id="building5Name">Placeholder</span>: <span id="building5Cur" class="whiteText">0</span> <span id="building5True" class="yellowText">[0]</span></p>
+                                <p id="building5ProdDiv" title="Missing"><span>producing</span>: <span id="building5Prod" class="whiteText">0</span></p>
+                            </div>
+                            <div>
+                                <div>
+                                    <p>x<span id="building5BuyX" class="whiteText">1</span></p>
+                                    <div></div>
+                                </div>
+                                <button type="button" id="building5Btn" tabindex="-1">Need: Missing</button>
+                                <button type="button" id="toggleBuilding5" class="toggleBuilding" tabindex="-1">Auto ON</button>
+                            </div>
+                        </section>
+                        <section id="building6" class="buyBuilding stageText">
+                            <img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false">
+                            <div>
+                                <p><span id="building6Name">Placeholder</span>: <span id="building6Cur" class="whiteText">0</span> <span id="building6True" class="yellowText">[0]</span></p>
+                                <p id="building6ProdDiv" title="Missing"><span>producing</span>: <span id="building6Prod" class="whiteText">0</span></p>
+                            </div>
+                            <div>
+                                <div>
+                                    <p>x<span id="building6BuyX" class="whiteText">1</span></p>
+                                    <div></div>
+                                </div>
+                                <button type="button" id="building6Btn" tabindex="-1">Need: Missing</button>
+                                <button type="button" id="toggleBuilding6" class="toggleBuilding" tabindex="-1">Auto ON</button>
+                            </div>
+                        </section>
+                        <div id="buildingToggles">
+                            <button type="button" id="makeAllStructures" class="hollowButton">制作全部</button>
+                            <div>
+                                <input type="number" id="buyAnyInput" value="1" step="1" inputmode="text">
+                                <label for="buyAnyInput" class="popUpMenu">How many Structures to make at same time<br aria-hidden="true">(Will make max if set to 0, ignored when holding Shift or Ctrl)</label>
+                            </div>
+                            <div id="autoWaitMain">
+                                <input type="number" id="autoWaitInput" value="2" step="any" inputmode="text">
+                                <label for="autoWaitInput" class="popUpMenu">How many times of cost Auto should wait before making a Structure</label>
+                            </div>
+                            <button type="button" id="toggleBuilding0" class="toggleBuilding" tabindex="-1">All ON</button>
+                        </div>
+                    </article>
+                    <div id="stageInfo">
+                        <div class="stage1Only">
+                            <p id="tritiumEffect" class="cyanText">来自「氚」的摩尔产量： <span class="blueText">0</span></p>
+                            <p id="preonCap" class="cyanText">Preons production hardcap starts at <span class="grayText">1e14</span><br aria-hidden="true">(Production to hardcap ratio is <span id="preonCapRatio" class="grayText">0</span>)</p>
+                            <p id="dischargeEffect" class="orangeText">来自「释能」目标的加成： <span class="darkorchidText">1</span></p>
+                            <p id="energySpent" class="orangeText">已消耗的能量： <span class="darkorchidText">0</span></p>
+                        </div>
+                        <div class="stage2Only">
+                            <p id="molesProduction" class="blueText">Tritium production of Moles: <span class="cyanText">0</span></p>
+                            <p id="vaporizationBoostTotal" class="grayText">「蒸发」后获得的加成：<span class="blueText">1</span></p>
+                            <p id="cloudEffect" class="grayText">来自云的水洼加成：<span class="blueText">1</span></p>
+                        </div>
+                        <div class="stage3Only">
+                            <p id="massProduction" class="grayText">Preons production of Mass: <span class="cyanText">0</span></p>
+                            <p id="dustSoftcap" class="grayText">Cosmic dust production is raised to the power of <span class="darkorchidText">1</span></p>
+                            <p id="dustCap" class="grayText">Cosmic dust production hardcap starts at <span class="darkorchidText">1e48</span><br aria-hidden="true">(Production to hardcap ratio is <span id="dustCapRatio" class="darkorchidText">0</span>)</p>
+                            <p id="submersionBoost" class="blueText">Boost to Cosmic dust from Drops: <span class="cyanText">0</span></p>
+                        </div>
+                        <div class="stage4Only">
+                            <p id="mainCap" class="cyanText">Solar mass from Collapse is limited to <span class="orchidText">1</span><br aria-hidden="true">(Hardcap will be reached in <span class="orchidText"><span id="mainCapTill">20</span> seconds</span>)</p>
+                            <p id="collapseBoostTotal" class="orchidText">Total boost after Collapse: <span class="cyanText">1</span></p>
+                            <section id="starEffects">
+                                <h3 class="orangeText bigWord">Current effects</h3>
+                                <p id="solarMassEffect" class="cyanText">Solar mass: <span class="greenText">0</span><span class="greenText">Boost to all Stars</span></p>
+                                <p id="star1Effect" class="redText">Red giants: <span class="greenText">0</span><span class="greenText">Boost to Main-sequence</span></p>
+                                <p id="star2Effect" class="darkvioletText">Neutron stars: <span class="greenText">0</span><span class="greenText">Boost to all Stars</span></p>
+                                <p id="star3Effect" class="grayText">Black holes: <span class="greenText">0</span><span class="greenText">Boost to Solar mass gain</span></p>
+                            </section>
+                        </div>
+                        <div class="stage5Only">
+                            <p id="mainCapCurrentS5" class="cyanText">Solar mass after Collapse: <span class="orangeText">0</span><span id="mainCapS5"> | Hardcap: <span class="orangeText">0</span></span></p>
+                            <p id="elementsProductionS5" class="redText">Total production of Elements: <span class="orangeText">0</span></p>
+                            <p id="collapseBoostTotalS5" class="orchidText">Total boost after Collapse: <span class="orangeText">1</span></p>
+                            <section id="mergeEffects">
+                                <h3 class="cyanText bigWord">Current effects</h3>
+                                <p id="merge1Effect" class="grayText">Groups: <span class="greenText">1</span><span class="greenText">Boost to Galaxies</span></p>
+                            </section>
+                        </div>
+                        <p id="cosmonGain" class="darkvioletText stage6Only">Cosmon gain from current Vacuum reset: <span class="greenText">1</span></p>
+                    </div>
+                    <div id="timeInfo">
+                        <p id="exportMaxed" class="redText">Time for a reward from exporting save file is at max value</p>
+                        <p id="stageTime" class="blueText">阶段时间： <span class="cyanText">1 seconds</span><span id="stageTimeReal"> (现实： <span class="cyanText">0 seconds</span>)</span></p>
+                        <p id="currentChallenge" class="redText">Currently inside the <span>Missing</span></p>
+                    </div>
+                    <p id="SRMessage1" class="reader">If you are using Screen reader, then enabling support in Settings will add extra information and other helpfull stuff, use arrows to change current tab or subtab</p>
+                    <p id="MDMessage1" aria-hidden="true">If you are playing on Mobile device, then enabling support in Settings will add helpfull stuff, as well can fix some bugs</p>
+                </section>
+                <section id="stageSubtabAdvanced" class="insideTab" style="display: none;" aria-label="Current tab">
+                    <div id="challengesMain">
+                        <div>
+                            <input type="image" src="Used_art/Void.png" alt="Void" draggable="false" id="challenge1" class="interactiveImage" aria-labelledby="challengeMultiline">
+                        </div>
+                        <div id="challengeMultiline">
+                            <p>Hover to see</p>
+                        </div>
+                        <div id="voidRewards">
+                            <h3 class="darkvioletText bigWord">Rewards:</h3>
+                            <div>
+                                <button type="button" id="voidRewardMicroworld" class="hollowButton stage1borderButton cyanText" aria-haspopup="dialog">Microworld</button>
+                                <button type="button" id="voidRewardSubmerged" class="hollowButton stage2borderButton blueText" aria-haspopup="dialog">Submerged</button>
+                                <button type="button" id="voidRewardAccretion" class="hollowButton stage3borderButton grayText" aria-haspopup="dialog">Accretion</button>
+                                <button type="button" id="voidRewardInterstellar" class="hollowButton stage4borderButton orangeText" aria-haspopup="dialog">Interstellar</button>
+                                <button type="button" id="voidRewardIntergalactic" class="hollowButton stage5borderButton darkorchidText" aria-haspopup="dialog">Intergalactic</button>
+                            </div>
+                            <div id="voidRewardsDiv" class="popUpMenu" role="dialog" aria-label="Reward list">
+                                <p class="greenText center">All rewards are related to Strangeness</p>
+                                <div id="voidRewardsDivText" class="whiteText"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="advancedInfo">
+                        <label id="autoChallengeLeave" class="whiteText">Automatically leave current Challenge after reaching its time limit <button type="button" id="toggleNormal3" class="toggleNormal">ON</button></label>
+                        <p id="globalSpeed" class="blueText">Global speed: <span class="cyanText">1</span>x</p>
+                        <p id="universeTime" class="grayText">Universe age: <span class="orangeText">0 seconds</span><span id="universeTimeReal"> (Real: <span class="orangeText">0 seconds</span>)</span></p>
+                    </div>
+                </section>
+            </div>
+            <div id="upgradeTab" style="display: none;">
+                <section id="upgradeSubtabUpgrades" class="insideTab" aria-label="Current tab">
+                    <div id="upgrades">
+                        <h2 class="biggerWord" aria-hidden="true">升级</h2>
+                        <section aria-label="Upgrades">
+                            <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="upgrade1" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                            <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="upgrade2" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                            <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="upgrade3" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                            <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="upgrade4" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                            <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="upgrade5" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                            <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="upgrade6" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                            <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="upgrade7" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                            <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="upgrade8" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                            <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="upgrade9" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                            <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="upgrade10" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                            <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="upgrade11" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                            <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="upgrade12" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                            <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="upgrade13" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                        </section>
+                    </div>
+                    <div id="researches">
+                        <h2 class="bigWord" aria-hidden="true">研究</h2>
+                        <section id="stageResearches" aria-label="Stage Researches">
+                            <img src="Used_art/Stage.png" alt="" loading="lazy" draggable="false" class="stageBorderImage">
+                            <div>
+                                <div id="research1">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="research1Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="research1Level" class="redText">X</span>/<span id="research1Max" class="greenText">X</span></p>
+                                </div>
+                                <div id="research2">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="research2Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="research2Level" class="redText">X</span>/<span id="research2Max" class="greenText">X</span></p>
+                                </div>
+                                <div id="research3">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="research3Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="research3Level" class="redText">X</span>/<span id="research3Max" class="greenText">X</span></p>
+                                </div>
+                                <div id="research4">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="research4Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="research4Level" class="redText">X</span>/<span id="research4Max" class="greenText">X</span></p>
+                                </div>
+                                <div id="research5">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="research5Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="research5Level" class="redText">X</span>/<span id="research5Max" class="greenText">X</span></p>
+                                </div>
+                                <div id="research6">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="research6Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="research6Level" class="redText">X</span>/<span id="research6Max" class="greenText">X</span></p>
+                                </div>
+                                <div id="research7">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="research7Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="research7Level" class="redText">X</span>/<span id="research7Max" class="greenText">X</span></p>
+                                </div>
+                                <div id="research8">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="research8Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="research8Level" class="redText">X</span>/<span id="research8Max" class="greenText">X</span></p>
+                                </div>
+                                <div id="research9">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="research9Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="research9Level" class="redText">X</span>/<span id="research9Max" class="greenText">X</span></p>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="extraResearches">
+                            <img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false">
+                            <div>
+                                <div id="researchExtra1">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="researchExtra1Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="researchExtra1Level" class="redText">X</span>/<span id="researchExtra1Max" class="greenText">X</span></p>
+                                </div>
+                                <div id="researchExtra2">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="researchExtra2Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="researchExtra2Level" class="redText">X</span>/<span id="researchExtra2Max" class="greenText">X</span></p>
+                                </div>
+                                <div id="researchExtra3">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="researchExtra3Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="researchExtra3Level" class="redText">X</span>/<span id="researchExtra3Max" class="greenText">X</span></p>
+                                </div>
+                                <div id="researchExtra4">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="researchExtra4Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="researchExtra4Level" class="redText">X</span>/<span id="researchExtra4Max" class="greenText">X</span></p>
+                                </div>
+                                <div id="researchExtra5">
+                                    <input type="image" src="Used_art/Missing.png" alt="Missing" draggable="false" id="researchExtra5Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText"><span id="researchExtra5Level" class="redText">X</span>/<span id="researchExtra5Max" class="greenText">X</span></p>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="autoResearches" aria-label="Automatization Researches">
+                            <img src="Used_art/Automatization.png" alt="" loading="lazy" draggable="false">
+                            <div class="stage3borderImage">
+                                <div id="ASR">
+                                    <input type="image" src="Used_art/Auto.png" alt="Auto Structures" draggable="false" id="ASRImage" class="stageBorderImage interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText stageAllborderImage"><span id="ASRLevel" class="redText">0</span>/<span id="ASRMax" class="greenText">3</span></p>
+                                </div>
+                                <div id="researchAuto1">
+                                    <input type="image" src="Used_art/ResearchAuto1.png" alt="Upgrade automatization" draggable="false" id="researchAuto1Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText stage3borderImage"><span id="researchAuto1Level" class="redText">0</span>/<span id="researchAuto1Max" class="greenText">3</span></p>
+                                </div>
+                                <div id="researchAuto2">
+                                    <input type="image" src="Used_art/Elements%20auto.png" alt="Element automatization" draggable="false" id="researchAuto2Image" class="interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText stage4borderImage"><span id="researchAuto2Level" class="redText">0</span>/<span id="researchAuto2Max" class="greenText">1</span></p>
+                                </div>
+                                <div id="researchAuto3">
+                                    <input type="image" src="Used_art/ResearchAuto3.png" alt="Reset automatization" draggable="false" id="researchAuto3Image" class="stageBorderImage interactiveImage" aria-labelledby="upgradeText upgradeCost upgradeEffect">
+                                    <p class="whiteText stageAllborderImage"><span id="researchAuto3Level" class="redText">0</span>/<span id="researchAuto3Max" class="greenText">1</span></p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div id="researchBottomDiv">
+                        <div id="researchToggles">
+                            <button type="button" id="toggleHover0" class="toggleHover">Hover to create ON</button>
+                            <button type="button" id="toggleMax0" class="toggleMax">Max create ON</button>
+                        </div>
+                        <div class="descriptionText">
+                            <h3>升级：<span id="upgradeText" class="darkorchidText">Hover to see.</span></h3>
+                            <p>效果：<span id="upgradeEffect" class="blueText">Hover to see.</span></p>
+                            <p>花费：<span id="upgradeCost" class="orangeText">Resource.</span></p>
+                        </div>
+                    </div>
+                </section>
+                <section id="upgradeSubtabElements" class="insideTab" style="display: none;" aria-label="Current tab">
+                    <div id="elementsGrid">
+                        <input type="image" src="Used_art/Element0.png" alt="Neutronium" draggable="false" id="element0" class="interactiveImage elementType1" aria-labelledby="elementText elementCost elementEffect" aria-hidden="true" tabindex="-1">
+                        <input type="image" src="Used_art/Element1.png" alt="Hydrogen" draggable="false" id="element1" class="interactiveImage elementType1" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element2.png" alt="Helium" draggable="false" id="element2" class="interactiveImage elementType1" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element3.png" alt="Lithium" draggable="false" id="element3" class="interactiveImage elementType1" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element4.png" alt="Beryllium" draggable="false" id="element4" class="interactiveImage elementType1" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element5.png" alt="Boron" draggable="false" id="element5" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element6.png" alt="Carbon" draggable="false" id="element6" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element7.png" alt="Nitrogen" draggable="false" id="element7" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element8.png" alt="Oxygen" draggable="false" id="element8" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element9.png" alt="Fluorine" draggable="false" id="element9" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element10.png" alt="Neon" draggable="false" id="element10" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element11.png" alt="Sodium" draggable="false" id="element11" class="interactiveImage elementType1" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element12.png" alt="Magnesium" draggable="false" id="element12" class="interactiveImage elementType1" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element13.png" alt="Aluminium" draggable="false" id="element13" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element14.png" alt="Silicon" draggable="false" id="element14" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element15.png" alt="Phosphorus" draggable="false" id="element15" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element16.png" alt="Sulfur" draggable="false" id="element16" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element17.png" alt="Chlorine" draggable="false" id="element17" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element18.png" alt="Argon" draggable="false" id="element18" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element19.png" alt="Potassium" draggable="false" id="element19" class="interactiveImage elementType1" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element20.png" alt="Calcium" draggable="false" id="element20" class="interactiveImage elementType1" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element21.png" alt="Scandium" draggable="false" id="element21" class="interactiveImage elementType3" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element22.png" alt="Titanium" draggable="false" id="element22" class="interactiveImage elementType3" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element23.png" alt="Vanadium" draggable="false" id="element23" class="interactiveImage elementType3" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element24.png" alt="Chromium" draggable="false" id="element24" class="interactiveImage elementType3" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element25.png" alt="Manganese" draggable="false" id="element25" class="interactiveImage elementType3" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element26.png" alt="Iron" draggable="false" id="element26" class="interactiveImage elementType3" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element27.png" alt="Cobalt" draggable="false" id="element27" class="interactiveImage elementType3" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element28.png" alt="Nickel" draggable="false" id="element28" class="interactiveImage elementType3" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element29.png" alt="Copper" draggable="false" id="element29" class="interactiveImage elementType3" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element30.png" alt="Zinc" draggable="false" id="element30" class="interactiveImage elementType3" aria-labelledby="elementText elementCost elementEffect">
+                        <input type="image" src="Used_art/Element31.png" alt="Gallium" draggable="false" id="element31" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
+                    </div>
+                    <div class="descriptionText">
+                        <h3>Element: <span id="elementText" class="darkorchidText">Hover to see.</span></h3>
+                        <p>Effect: <span id="elementEffect" class="blueText">Hover to see.</span></p>
+                        <p>Unlock: <span id="elementCost" class="orangeText">Resource.</span></p>
+                    </div>
+                </section>
+            </div>
+            <div id="strangenessTab" style="display: none;">
+                <section id="strangenessSubtabMatter" class="insideTab" aria-label="Current tab">
+                    <div class="fullWidth center greenText">
+                        <h2 class="biggerWord">奇异物质</h2>
+                        <p>阶段重置奖励：<span class="whiteText"><span id="strange0Gain">1</span> 奇异夸克</span><span id="strange1Unlocked">，<span class="whiteText"><span id="strange1Gain">1</span> 奇异粒子</span></span></p>
+                        <p>奇异夸克速率：<span id="strangeRate" class="whiteText">0 每十亿年</span> (峰值：<span id="strangePeak" class="whiteText">0 每十亿年</span>)</p>
+                        <p>阶段时间：<span id="stageTimeStrangeness" class="whiteText">0 seconds</span> (最佳重置：<span id="stageTimeBestReset" class="whiteText">1 seconds</span>)</p>
+                    </div>
+                    <section id="strangeStructures" class="greenText" aria-label="Strange Structures">
+                        <div id="strange0" class="noFocusOutline" tabindex="0" aria-haspopup="dialog"> <!-- Tabindex here is to make window close easier -->
+                            <p>奇异夸克</p>
+                            <div>
+                                <img src="Used_art/Strange%20Quarks.png" alt="" loading="lazy" draggable="false">
+                                <p id="strange0Cur">0</p>
+                            </div>
+                            <div id="quarksEffectsMain" class="popUpMenu mainText" style="display: none;" role="dialog">
+                                <h4 class="bigWord">当前效果：</h4>
+                                <ul class="whiteText">
+                                    <li>对所有 微观 结构加成 <span id="quarksEffect1Stat">1</span></li>
+                                    <li>对 水洼 加成 <span id="quarksEffect2Stat">1</span></li>
+                                    <li>使所有 积聚 结构便宜 <span id="quarksEffect3Stat">1</span></li>
+                                    <li>加成所有 星际 结构 <span id="quarksEffect4Stat">1</span></li>
+                                    <li>加成 太阳质量 获取 <span id="quarksEffect5Stat">1</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="strange1" class="noFocusOutline" tabindex="0" aria-haspopup="dialog">
+                            <p>Strangelets</p>
+                            <div>
+                                <img src="Used_art/Strangelets.png" alt="" loading="lazy" draggable="false">
+                                <p id="strange1Cur">0</p>
+                            </div>
+                            <div id="strangeletsEffectsMain" class="popUpMenu mainText" style="display: none;" role="dialog">
+                                <h4 class="bigWord">Current effects:</h4>
+                                <ul class="whiteText">
+                                    <li>Producing <span id="strangeletsEffect1Stat0">0</span>% of current Strange quarks rate<br aria-hidden="true">(<span id="strangeletsEffect1Allowed">Which is equal to <span id="strangeletsEffect1Stat1">0 per eon</span></span><span id="strangeletsEffect1Disabled">For Interstellar Stage only</span><span id="strangeletsGlobalSpeedInfo">, not affected by global speed</span>)</li>
+                                    <li>Increasing Stage reset reward by <span id="strangeletsEffect2Stat">1</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                    <h2 class="fullWidth greenText bigWord center" aria-hidden="true">奇异特性</h2>
+                    <article id="strangenessResearch" aria-label="Strangeness">
+                        <section id="strangenessSection1" class="stage1borderImage" aria-label="Microworld">
+                            <div id="strange1Stage1">
+                                <input type="image" src="Used_art/Particle+.png" alt="Fundamental boost" draggable="false" id="strange1Stage1Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage1borderImage"><span id="strange1Stage1Level" class="redText">0</span>/<span id="strange1Stage1Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange2Stage1">
+                                <input type="image" src="Used_art/ResearchQ3.png" alt="Better improvement" draggable="false" id="strange2Stage1Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage1borderImage"><span id="strange2Stage1Level" class="redText">0</span>/<span id="strange2Stage1Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange3Stage1">
+                                <input type="image" src="Used_art/ResearchQ4.png" alt="Cheaper Discharge" draggable="false" id="strange3Stage1Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage4borderImage"><span id="strange3Stage1Level" class="redText">0</span>/<span id="strange3Stage1Max" class="greenText">2</span></p>
+                            </div>
+                            <div id="strange4Stage1">
+                                <input type="image" src="Used_art/Discharge%20+1.png" alt="Free Discharge" draggable="false" id="strange4Stage1Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage4borderImage"><span id="strange4Stage1Level" class="redText">0</span>/<span id="strange4Stage1Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange5Stage1">
+                                <input type="image" src="Used_art/Discharge%20auto.png" alt="Automatic Discharge" draggable="false" id="strange5Stage1Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage4borderImage"><span id="strange5Stage1Level" class="redText">0</span>/<span id="strange5Stage1Max" class="greenText">2</span></p>
+                            </div>
+                            <div id="strange6Stage1">
+                                <input type="image" src="Used_art/Auto%20S1.png" alt="Auto Structures" draggable="false" id="strange6Stage1Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage1borderImage"><span id="strange6Stage1Level" class="redText">0</span>/<span id="strange6Stage1Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange7Stage1">
+                                <input type="image" src="Used_art/Boost%20Stage%201.png" alt="Strange boost" draggable="false" id="strange7Stage1Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage6borderImage"><span id="strange7Stage1Level" class="redText">0</span>/<span id="strange7Stage1Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange8Stage1">
+                                <input type="image" src="Used_art/Energy%20Preon.png" alt="Energy increase" draggable="false" id="strange8Stage1Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage4borderImage"><span id="strange8Stage1Level" class="redText">0</span>/<span id="strange8Stage1Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange9Stage1">
+                                <input type="image" src="Used_art/Mass%20recycle.png" alt="Conservation of Mass" draggable="false" id="strange9Stage1Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage3borderImage"><span id="strange9Stage1Level" class="redText">0</span>/<span id="strange9Stage1Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange10Stage1">
+                                <input type="image" src="Used_art/Energy%20recycle.png" alt="Conservation of Energy" draggable="false" id="strange10Stage1Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage4borderImage"><span id="strange10Stage1Level" class="redText">0</span>/<span id="strange10Stage1Max" class="greenText">1</span></p>
+                            </div>
+                        </section>
+                        <section id="strangenessSection2" class="stage2borderImage" aria-label="Submerged">
+                            <div id="strange1Stage2">
+                                <input type="image" src="Used_art/Water+.png" alt="More Moles" draggable="false" id="strange1Stage2Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage2borderImage"><span id="strange1Stage2Level" class="redText">0</span>/<span id="strange1Stage2Max" class="greenText">9</span></p>
+                            </div>
+                            <div id="strange2Stage2">
+                                <input type="image" src="Used_art/Puddle%20big.png" alt="Bigger Puddles" draggable="false" id="strange2Stage2Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage2borderImage"><span id="strange2Stage2Level" class="redText">0</span>/<span id="strange2Stage2Max" class="greenText">6</span></p>
+                            </div>
+                            <div id="strange3Stage2">
+                                <input type="image" src="Used_art/Spread.png" alt="More spread" draggable="false" id="strange3Stage2Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage2borderImage"><span id="strange3Stage2Level" class="redText">0</span>/<span id="strange3Stage2Max" class="greenText">3</span></p>
+                            </div>
+                            <div id="strange4Stage2">
+                                <input type="image" src="Used_art/Clouds%20plus.png" alt="Cloud density" draggable="false" id="strange4Stage2Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage3borderImage"><span id="strange4Stage2Level" class="redText">0</span>/<span id="strange4Stage2Max" class="greenText">3</span></p>
+                            </div>
+                            <div id="strange5Stage2">
+                                <input type="image" src="Used_art/Vaporization%20auto.png" alt="Automatic Vaporization" draggable="false" id="strange5Stage2Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage2borderImage"><span id="strange5Stage2Level" class="redText">0</span>/<span id="strange5Stage2Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange6Stage2">
+                                <input type="image" src="Used_art/Auto%20S2.png" alt="Auto Structures" draggable="false" id="strange6Stage2Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage2borderImage"><span id="strange6Stage2Level" class="redText">0</span>/<span id="strange6Stage2Max" class="greenText">5</span></p>
+                            </div>
+                            <div id="strange7Stage2">
+                                <input type="image" src="Used_art/Boost%20Stage%202.png" alt="Strange boost" draggable="false" id="strange7Stage2Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage6borderImage"><span id="strange7Stage2Level" class="redText">0</span>/<span id="strange7Stage2Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange8Stage2">
+                                <input type="image" src="Used_art/Better%20water.png" alt="Improved flow" draggable="false" id="strange8Stage2Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage2borderImage"><span id="strange8Stage2Level" class="redText">0</span>/<span id="strange8Stage2Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange9Stage2">
+                                <input type="image" src="Used_art/Spread%202.png" alt="Mechanical spread" draggable="false" id="strange9Stage2Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage2borderImage"><span id="strange9Stage2Level" class="redText">0</span>/<span id="strange9Stage2Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange10Stage2">
+                                <input type="image" src="Used_art/Ocean%20world.png" alt="Ocean world" draggable="false" id="strange10Stage2Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage2borderImage"><span id="strange10Stage2Level" class="redText">0</span>/<span id="strange10Stage2Max" class="greenText">1</span></p>
+                            </div>
+                        </section>
+                        <section id="strangenessSection3" class="stage3borderImage" aria-label="Accretion">
+                            <div id="strange1Stage3">
+                                <input type="image" src="Used_art/ResearchA1.png" alt="Faster Accretion" draggable="false" id="strange1Stage3Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage3borderImage"><span id="strange1Stage3Level" class="redText">0</span>/<span id="strange1Stage3Max" class="greenText">8</span></p>
+                            </div>
+                            <div id="strange2Stage3">
+                                <input type="image" src="Used_art/Mass-.png" alt="Intense weathering" draggable="false" id="strange2Stage3Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage3borderImage"><span id="strange2Stage3Level" class="redText">0</span>/<span id="strange2Stage3Max" class="greenText">4</span></p>
+                            </div>
+                            <div id="strange3Stage3">
+                                <input type="image" src="Used_art/Rank%20levels.png" alt="More levels" draggable="false" id="strange3Stage3Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage3borderImage"><span id="strange3Stage3Level" class="redText">0</span>/<span id="strange3Stage3Max" class="greenText">3</span></p>
+                            </div>
+                            <div id="strange4Stage3">
+                                <input type="image" src="Used_art/System%20red.png" alt="Improved Satellites" draggable="false" id="strange4Stage3Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage7borderImage"><span id="strange4Stage3Level" class="redText">0</span>/<span id="strange4Stage3Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange5Stage3">
+                                <input type="image" src="Used_art/Rank%20auto.png" alt="Automatic Rank" draggable="false" id="strange5Stage3Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage3borderImage"><span id="strange5Stage3Level" class="redText">0</span>/<span id="strange5Stage3Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange6Stage3">
+                                <input type="image" src="Used_art/Auto%20S3.png" alt="Auto Structures" draggable="false" id="strange6Stage3Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage3borderImage"><span id="strange6Stage3Level" class="redText">0</span>/<span id="strange6Stage3Max" class="greenText">4</span></p>
+                            </div>
+                            <div id="strange7Stage3">
+                                <input type="image" src="Used_art/Upgrades%20auto.png" alt="Upgrade automatization" draggable="false" id="strange7Stage3Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage3borderImage"><span id="strange7Stage3Level" class="redText">0</span>/<span id="strange7Stage3Max" class="greenText">3</span></p>
+                            </div>
+                            <div id="strange8Stage3">
+                                <input type="image" src="Used_art/Boost%20Stage%203.png" alt="Strange boost" draggable="false" id="strange8Stage3Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage6borderImage"><span id="strange8Stage3Level" class="redText">0</span>/<span id="strange8Stage3Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange9Stage3">
+                                <input type="image" src="Used_art/Cosmic%20mass.png" alt="Mass delay" draggable="false" id="strange9Stage3Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage3borderImage"><span id="strange9Stage3Level" class="redText">0</span>/<span id="strange9Stage3Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange10Stage3">
+                                <input type="image" src="Used_art/Rank%20max.png" alt="Rank raise" draggable="false" id="strange10Stage3Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage3borderImage"><span id="strange10Stage3Level" class="redText">0</span>/<span id="strange10Stage3Max" class="greenText">3</span></p>
+                            </div>
+                        </section>
+                        <section id="strangenessSection4" class="stage4borderImage" aria-label="Interstellar">
+                            <div id="strange1Stage4">
+                                <input type="image" src="Used_art/Brown%20dwarf%20hot.png" alt="Hotter Stars" draggable="false" id="strange1Stage4Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage1borderImage"><span id="strange1Stage4Level" class="redText">0</span>/<span id="strange1Stage4Max" class="greenText">8</span></p>
+                            </div>
+                            <div id="strange2Stage4">
+                                <input type="image" src="Used_art/Brown%20dwarf-.png" alt="Cheaper Stars" draggable="false" id="strange2Stage4Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage4borderImage"><span id="strange2Stage4Level" class="redText">0</span>/<span id="strange2Stage4Max" class="greenText">4</span></p>
+                            </div>
+                            <div id="strange3Stage4">
+                                <input type="image" src="Used_art/Brown%20dwarf%20time.png" alt="New Upgrade" draggable="false" id="strange3Stage4Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage4borderImage"><span id="strange3Stage4Level" class="redText">0</span>/<span id="strange3Stage4Max" class="greenText">3</span></p>
+                            </div>
+                            <div id="strange4Stage4">
+                                <input type="image" src="Used_art/Red%20giant+.png" alt="Main giants" draggable="false" id="strange4Stage4Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage7borderImage"><span id="strange4Stage4Level" class="redText">0</span>/<span id="strange4Stage4Max" class="greenText">2</span></p>
+                            </div>
+                            <div id="strange5Stage4">
+                                <input type="image" src="Used_art/Collapse%20auto.png" alt="Automatic Collapse" draggable="false" id="strange5Stage4Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage6borderImage"><span id="strange5Stage4Level" class="redText">0</span>/<span id="strange5Stage4Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange6Stage4">
+                                <input type="image" src="Used_art/Auto%20S4.png" alt="Auto Structures" draggable="false" id="strange6Stage4Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage4borderImage"><span id="strange6Stage4Level" class="redText">0</span>/<span id="strange6Stage4Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange7Stage4">
+                                <input type="image" src="Used_art/Elements%20auto.png" alt="Element automatization" draggable="false" id="strange7Stage4Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage4borderImage"><span id="strange7Stage4Level" class="redText">0</span>/<span id="strange7Stage4Max" class="greenText">4</span></p>
+                            </div>
+                            <div id="strange8Stage4">
+                                <input type="image" src="Used_art/Boost%20Stage%204.png" alt="Strange boost" draggable="false" id="strange8Stage4Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage6borderImage"><span id="strange8Stage4Level" class="redText">0</span>/<span id="strange8Stage4Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange9Stage4">
+                                <input type="image" src="Used_art/Neutronium.png" alt="Neutronium" draggable="false" id="strange9Stage4Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage6borderImage"><span id="strange9Stage4Level" class="redText">0</span>/<span id="strange9Stage4Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange10Stage4">
+                                <input type="image" src="Used_art/Brown%20dwarf%20time%20hot.png" alt="Newer Upgrade" draggable="false" id="strange10Stage4Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage1borderImage"><span id="strange10Stage4Level" class="redText">0</span>/<span id="strange10Stage4Max" class="greenText">1</span></p>
+                            </div>
+                        </section>
+                        <section id="strangenessSection5" class="stage5borderImage" aria-label="Intergalactic">
+                            <div id="strange1Stage5">
+                                <input type="image" src="Used_art/Nebula+.png" alt="Bigger Structures" draggable="false" id="strange1Stage5Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage2borderImage"><span id="strange1Stage5Level" class="redText">0</span>/<span id="strange1Stage5Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange2Stage5">
+                                <input type="image" src="Used_art/Star%20cluster%20denser.png" alt="Higher density" draggable="false" id="strange2Stage5Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage1borderImage"><span id="strange2Stage5Level" class="redText">0</span>/<span id="strange2Stage5Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange3Stage5">
+                                <input type="image" src="Used_art/Strange%20Quarks%20many.png" alt="Strange gain" draggable="false" id="strange3Stage5Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage0borderImage"><span id="strange3Stage5Level" class="redText">0</span>/<span id="strange3Stage5Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange4Stage5">
+                                <input type="image" src="Used_art/Gravitational%20bound.png" alt="Gravitational bound" id="strange4Stage5Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage6borderImage"><span id="strange4Stage5Level" class="redText">0</span>/<span id="strange4Stage5Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange5Stage5">
+                                <input type="image" src="Used_art/Galaxy%20auto.png" alt="Automatic Galaxy" draggable="false" id="strange5Stage5Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage3borderImage"><span id="strange5Stage5Level" class="redText">0</span>/<span id="strange5Stage5Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange6Stage5">
+                                <input type="image" src="Used_art/Auto%20S5.png" alt="Auto Structures" draggable="false" id="strange6Stage5Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage5borderImage"><span id="strange6Stage5Level" class="redText">0</span>/<span id="strange6Stage5Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange7Stage5">
+                                <input type="image" src="Used_art/Stage%20auto.png" alt="Automatic Stage" draggable="false" id="strange7Stage5Image" class="interactiveImage stageBorderImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stageAllborderImage"><span id="strange7Stage5Level" class="redText">0</span>/<span id="strange7Stage5Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange8Stage5">
+                                <input type="image" src="Used_art/Boost%20Stage%205.png" alt="Strange boost" draggable="false" id="strange8Stage5Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage6borderImage"><span id="strange8Stage5Level" class="redText">0</span>/<span id="strange8Stage5Max" class="greenText">1</span></p>
+                            </div>
+                            <div id="strange9Stage5">
+                                <input type="image" src="Used_art/Strange%20growth.png" alt="Strange growth" draggable="false" id="strange9Stage5Image" class="interactiveImage" aria-labelledby="strangenessText strangenessCost strangenessEffect">
+                                <p class="whiteText stage0borderImage"><span id="strange9Stage5Level" class="redText">0</span>/<span id="strange9Stage5Max" class="greenText">1</span></p>
+                            </div>
+                        </section>
+                    </article>
+                    <div class="descriptionText">
+                        <h3 class="greenText">Stage: <span id="strangenessStage"></span><span id="strangenessText" class="darkorchidText">Hover to see.</span></h3>
+                        <p class="greenText">Effect: <span id="strangenessEffect" class="orchidText">Hover to see.</span></p>
+                        <p class="greenText">Need: <span id="strangenessCost" class="darkvioletText">Strange quarks.</span></p>
+                    </div>
+                </section>
+                <section id="strangenessSubtabMilestones" class="insideTab" style="display: none;" aria-label="Current tab">
+                    <div class="fullWidth center">
+                        <h2 class="stageText bigWord">Milestones</h2>
+                        <p class="whiteText">Completing any tier will award 1 <span class="greenText">Strange quark</span></p>
+                    </div>
+                    <div id="milestones">
+                        <div id="milestone1Stage1Div" class="stage1borderImage stage1windowBackground"><img src="Used_art/Quarks.png" alt="Fundamental Matter" loading="lazy" draggable="false" aria-labelledby="milestonesText milestonesMultiline"></div>
+                        <div id="milestone2Stage1Div" class="stage1borderImage stage1windowBackground"><img src="Used_art/Energy.png" alt="Energized" loading="lazy" draggable="false" aria-labelledby="milestonesText milestonesMultiline"></div>
+                        <div id="milestone1Stage2Div" class="stage2borderImage stage2windowBackground"><img src="Used_art/Drop.png" alt="A Nebula of Drops" loading="lazy" draggable="false" aria-labelledby="milestonesText milestonesMultiline"></div>
+                        <div id="milestone2Stage2Div" class="stage2borderImage stage2windowBackground"><img src="Used_art/Puddle.png" alt="Just a bigger Puddle" loading="lazy" draggable="false" aria-labelledby="milestonesText milestonesMultiline"></div>
+                        <div id="milestone1Stage3Div" class="stage3borderImage stage3windowBackground"><img src="Used_art/Mass.png" alt="Cluster of Mass" loading="lazy" draggable="false" aria-labelledby="milestonesText milestonesMultiline"></div>
+                        <div id="milestone2Stage3Div" class="stage3borderImage stage3windowBackground"><img src="Used_art/Natural%20satellite.png" alt="Satellites of Satellites" loading="lazy" draggable="false" aria-labelledby="milestonesText milestonesMultiline"></div>
+                        <div id="milestone1Stage4Div" class="stage4borderImage stage4windowBackground"><img src="Used_art/Elements.png" alt="Remnants of past" loading="lazy" draggable="false" aria-labelledby="milestonesText milestonesMultiline"></div>
+                        <div id="milestone2Stage4Div" class="stage4borderImage stage4windowBackground"><img src="Used_art/Main_sequence%20mass.png" alt="Supermassive" loading="lazy" draggable="false" aria-labelledby="milestonesText milestonesMultiline"></div>
+                        <div id="milestone1Stage5Div" class="stage5borderImage stage5windowBackground"><img src="Used_art/Stars.png" alt="Light in the dark" loading="lazy" draggable="false" aria-labelledby="milestonesText milestonesMultiline"></div>
+                        <div id="milestone2Stage5Div" class="stage5borderImage stage5windowBackground"><img src="Used_art/Galaxy.png" alt="End of Greatness" loading="lazy" draggable="false" aria-labelledby="milestonesText milestonesMultiline"></div>
+                    </div>
+                    <div class="descriptionText">
+                        <h3 class="darkorchidText">Stage: <span id="milestonesStage"></span><span id="milestonesText" class="greenText">Hover to see.</span></h3>
+                        <div id="milestonesMultiline" class="descriptionText">
+                            <p class="orchidText">Requirement: <span class="greenText">Hover to see.</span></p>
+                            <p class="darkvioletText">Unlock: <span class="greenText">Hover to see.</span></p>
+                        </div>
+                    </div>
+                    <div id="milestonesProgressArea">
+                        <h3 class="stageText bigWord center">Overall progress</h3>
+                        <div class="stage1Include stage1borderImage stage1windowBackground cyanText">
+                            <p><span>Fundamental Matter</span> ⟶ <span id="milestone1Stage1Current" class="greenText">0</span> / <span id="milestone1Stage1Required" class="greenText">0</span></p>
+                            <p><span>Energized</span> ⟶ <span id="milestone2Stage1Current" class="greenText">0</span> / <span id="milestone2Stage1Required" class="greenText">0</span></p>
+                        </div>
+                        <div class="stage2Include stage2borderImage stage2windowBackground blueText">
+                            <p><span>A Nebula of Drops</span> ⟶ <span id="milestone1Stage2Current" class="greenText">0</span> / <span id="milestone1Stage2Required" class="greenText">0</span></p>
+                            <p><span>Just a bigger Puddle</span> ⟶ <span id="milestone2Stage2Current" class="greenText">0</span> / <span id="milestone2Stage2Required" class="greenText">0</span></p>
+                        </div>
+                        <div class="stage3Include stage3borderImage stage3windowBackground grayText">
+                            <p><span>Cluster of Mass</span> ⟶ <span id="milestone1Stage3Current" class="greenText">0</span> / <span id="milestone1Stage3Required" class="greenText">0</span></p>
+                            <p><span>Satellites of Satellites</span> ⟶ <span id="milestone2Stage3Current" class="greenText">0</span> / <span id="milestone2Stage3Required" class="greenText">0</span></p>
+                        </div>
+                        <div class="stage4Include stage4borderImage stage4windowBackground orangeText">
+                            <p><span>Remnants of past</span> ⟶ <span id="milestone1Stage4Current" class="greenText">0</span> / <span id="milestone1Stage4Required" class="greenText">0</span></p>
+                            <p><span>Supermassive</span> ⟶ <span id="milestone2Stage4Current" class="greenText">0</span> / <span id="milestone2Stage4Required" class="greenText">0</span></p>
+                        </div>
+                        <div id="milestonesStage5Progress" class="stage4Include stage5borderImage stage5windowBackground darkorchidText">
+                            <p><span>Light in the dark</span> ⟶ <span id="milestone1Stage5Current" class="greenText">0</span> / <span id="milestone1Stage5Required" class="greenText">0</span></p>
+                            <p id="milestone2Stage5Progress" class="stage5Include"><span>End of Greatness</span> ⟶ <span id="milestone2Stage5Current" class="greenText">0</span> / <span id="milestone2Stage5Required" class="greenText">0</span></p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div id="inflationTab" style="display: none;">
+                <section id="inflationSubtabResearches" class="insideTab" aria-label="Current tab">
+                    <div id="inflationContainer">
+                        <div id="inflationAvailable">
+                            <input type="image" src="Used_art/Brown%20dwarf%20time%20hot.png" alt="Overboost" draggable="false" id="inflation1" class="interactiveImage" aria-labelledby="inflationText inflationCost inflationEffect">
+                            <input type="image" src="Used_art/Brown%20dwarf%20time.png" alt="Global boost" draggable="false" id="inflation2" class="interactiveImage" aria-labelledby="inflationText inflationCost inflationEffect">
+                            <input type="image" src="Used_art/Strange%20Quarks%20many.png" alt="Strange gain" draggable="false" id="inflation3" class="interactiveImage" aria-labelledby="inflationText inflationCost inflationEffect">
+                            <input type="image" src="Used_art/Strangelets%20many.png" alt="Stranger gain" draggable="false" id="inflation4" class="interactiveImage" aria-labelledby="inflationText inflationCost inflationEffect">
+                            <input type="image" src="Used_art/Milestones.png" alt="Unlimited time" draggable="false" id="inflation5" class="interactiveImage" aria-labelledby="inflationText inflationCost inflationEffect">
+                        </div>
+                        <div id="inflationCreated"></div>
+                    </div>
+                    <div id="inflationBottomDiv">
+                        <div id="inflationToggles">
+                            <button type="button" id="inflationRefund" class="hollowButton">Refund</button>
+                        </div>
+                        <div class="descriptionText">
+                            <h3>Research: <span id="inflationText" class="darkorchidText">Hover to see.</span></h3>
+                            <p>Effect: <span id="inflationEffect" class="blueText">Hover to see.</span></p>
+                            <p>Requirement: <span id="inflationCost" class="orangeText">Resource.</span></p>
+                        </div>
+                    </div>
+                </section>
+                <section id="inflationSubtabMilestones" class="insideTab" style="display: none;" aria-label="Current tab">
+                    <div id="inflationMilestones">
+                        <div id="inflationMilestone1"><p>解锁于 1 宇宙</p>开始裂隙重置时，获得等同于购买的宇宙数量的奇异夸克，并获得 2 级「质量转换」</div>
+                        <div id="inflationMilestone2"><p>解锁于 2 宇宙</p>开始裂隙重置时，获得奇异特性中所有自动结构的最大等级，并获得 1 级「自动星系」</div>
+                        <div id="inflationMilestone3"><p>解锁于 3 宇宙</p>开始裂隙重置时，获得奇异特性中所有自动升级的最大等级，并获得 2 级「自动元素」<br>星系自动化不再需要「引力束缚」来工作</div>
+                    </div>
+                </section>
+            </div>
+            <div id="settingsTab" style="display: none;">
+                <section id="settingsSubtabSettings" class="insideTab" aria-label="Current tab">
+                    <article id="resetToggles" aria-label="Confirmation toggles and Reset settings">
+                        <h2 class="center" aria-hidden="true">重置确认开关</h2>
+                        <div>
+                            <section id="stageToggleReset" aria-label="Stage">
+                                <img src="Used_art/Stage%20toggle.png" alt="Stage" loading="lazy" draggable="false" title="Stage" class="stageBorderImage" aria-hidden="true">
+                                <div>
+                                    <button type="button" id="toggleConfirm0" class="toggleConfirm" title="Stage Confirmation">全部</button><!--
+                                 --><div id="toggleAuto0Main" class="settingsMenu">
+                                        <button type="button" class="hollowButton stageAllborderButton" aria-haspopup="menu" aria-label="Settings">!</button>
+                                        <div class="popUpMenu" role="menu" aria-label="Settings menu">
+                                            <p id="stageAutoInterstellar"><label>Perform <span>Interstellar Stage</span> reset when can get at least <input type="number" id="stageInput" value="0" step="any" inputmode="text"> Strange quarks</label><label> and <input type="number" id="stageInputTime" value="0" step="any" inputmode="text"> seconds have passed, doesn't reset if both are set to 0<span id="stageAutoVoid"> or inside Void</span></label></p>
+                                            <label id="stageAutoElse">Reset pre Intestellar Stages only if all Milestones are maxed <button type="button" id="toggleNormal2" class="toggleNormal">ON</button></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="toggleAuto0" class="toggleAuto" title="Auto Stage">Auto OFF</button>
+                            </section>
+                            <section id="dischargeToggleReset" aria-label="Discharge">
+                                <img src="Used_art/Discharge%20toggle.png" alt="Discharge" loading="lazy" draggable="false" title="Discharge" aria-hidden="true">
+                                <div>
+                                    <button type="button" id="toggleConfirm1" class="toggleConfirm" title="Discharge Confirmation">All</button>
+                                </div>
+                                <button type="button" id="toggleAuto1" class="toggleAuto" title="Auto Discharge">Auto OFF</button>
+                            </section>
+                            <section id="vaporizationToggleReset" aria-label="Vaporization">
+                                <img src="Used_art/Vaporization%20toggle.png" alt="Vaporization" loading="lazy" draggable="false" title="Vaporization" aria-hidden="true">
+                                <div>
+                                    <button type="button" id="toggleConfirm2" class="toggleConfirm" title="Vaporization Confirmation">All</button><!--
+                                 --><div id="toggleAuto2Main" class="settingsMenu">
+                                        <button type="button" class="hollowButton stage2borderButton" aria-haspopup="menu" aria-label="Settings">!</button>
+                                        <div class="popUpMenu" role="menu" aria-label="Settings menu">
+                                            <p><label>Vaporize when boost from new Clouds has reached at least <input type="number" id="vaporizationInput" value="3" step="any" inputmode="text"></label><label id="vaporizationLimit"> until <input type="number" id="vaporizationInputMax" value="0" step="any" inputmode="text"> Clouds, ignored if set to 0</label></p>
+                                            <label id="vaporizationExtra">(Automatically turn off if auto level is 2 or more <button type="button" id="toggleNormal1" class="toggleNormal">ON</button>)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="toggleAuto2" class="toggleAuto" title="Auto Vaporization">Auto OFF</button>
+                            </section>
+                            <section id="rankToggleReset" aria-label="Rank">
+                                <img src="Used_art/Rank%20toggle.png" alt="Rank" loading="lazy" draggable="false" title="Rank" aria-hidden="true">
+                                <div>
+                                    <button type="button" id="toggleConfirm3" class="toggleConfirm" title="Rank Confirmation">All</button>
+                                </div>
+                                <button type="button" id="toggleAuto3" class="toggleAuto" title="Auto Rank">Auto OFF</button>
+                            </section>
+                            <section id="collapseToggleReset" aria-label="Collapse">
+                                <img src="Used_art/Collapse%20toggle.png" alt="Collapse" loading="lazy" draggable="false" title="Collapse" aria-hidden="true">
+                                <div>
+                                    <button type="button" id="toggleConfirm4" class="toggleConfirm" title="Collapse Confirmation">All</button><!--
+                                 --><div id="toggleAuto4Main" class="settingsMenu">
+                                        <button type="button" class="hollowButton stage4borderButton" aria-haspopup="menu" aria-label="Settings">!</button>
+                                        <div class="popUpMenu" role="menu" aria-label="Settings menu">
+                                            <p><label>Collapse when boost from doing it has reached at least <input type="number" id="collapseInput" value="2" step="any" inputmode="text"></label><label> or if Solar mass will increase to at least <span id="collapsePoints"></span><input type="number" id="collapseAddNewPoint" step="any" inputmode="text"></label><br>(Maximum value is 40, writing number with a minus will remove it and 0 will remove all)</p>
+                                            <label id="collapseCapped">Prevent auto Collapse if Solar mass can be hardcapped within <input type="number" id="collapseInputWait" value="1e6" step="any" inputmode="text"> seconds and not yet hardcapped</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="toggleAuto4" class="toggleAuto" title="Auto Collapse">Auto OFF</button>
+                            </section>
+                            <section id="mergeToggleReset" aria-label="Merge">
+                                <img src="Used_art/Merge%20toggle.png" alt="Merge" loading="lazy" draggable="false" title="Merge" aria-hidden="true">
+                                <div>
+                                    <button type="button" id="toggleConfirm5" class="toggleConfirm" title="Merge Confirmation">All</button>
+                                </div>
+                            </section>
+                        </div>
+                    </article>
+                    <aside id="logoLinks" aria-label="Links">
+                        <a href="https://discord.gg/DfpuhDTseN" target="_blank" rel="noopener noreferrer" aria-label="Official Discord">
+                            <img src="Used_art/SVG/Discord.svg" alt="" loading="lazy" draggable="false">
+                            Discord
+                        </a>
+                        <button id="hotkeysButton" aria-label="List of hotkeys">
+                            <img src="Used_art/SVG/Keyboard.svg" alt="" loading="lazy">
+                            快捷键
+                        </button>
+                        <button type="button" id="versionButton" aria-label="Version change log">
+                            <img src="Used_art/SVG/Files.svg" alt="" loading="lazy" draggable="false">
+                            版本
+                        </button>
+                    </aside>
+                    <article id="saveButtonGroup" aria-label="Save file buttons">
+                        <h3 class="bigWord">请经常导出存档文件</h3>
+                        <p id="exportReward" class="whiteText center">当前奖励为 <span id="exportQuarks" class="greenText">0</span> 奇异夸克<span id="exportStrangeletsUnlocked">, <span id="exportStrangelets" class="greenText">0</span> 奇异粒子</span></p>
+                        <div>
+                            <div>
+                                <button type="button" id="save">保存</button>
+                                <label id="load">加载<input type="file" id="file" class="reader" accept=".txt"></label>
+                            </div>
+                            <button type="button" id="export">导出存档文件</button>
+                            <button type="button" id="saveConsole">其他存档选项</button>
+                        </div>
+                        <p class="whiteText">上次保存：<span id="isSaved" class="mainText">当前会话从未</span></p>
+                    </article>
+                    <section class="options">
+                        <h2 class="center">选项</h2>
+                        <ul class="whiteText">
+                            <li><input type="text" id="saveFileNameInput" value="Fundamental" aria-label="Save file name" minlength="4"> + '<span class="mainText">.txt</span>'<!--
+                                --><div class="settingsMenu">
+                                    <button type="button" id="saveFileHoverButton" class="hollowButton" aria-haspopup="dialog">预览</button>
+                                    <div class="popUpMenu" role="dialog" aria-label="Save file name preview">
+                                        <p id="saveFileNamePreview" class="mainText bigWord">Fundamental.txt</p>
+                                        <p class="whiteText center">以下所有信息都可作为存档文件名的组成部分：</p>
+                                        <p class="mainText">[version] - <span class="whiteText">当前游戏版本</span></p>
+                                        <p class="stageText">[stage] - <span class="whiteText">当前阶段</span></p>
+                                        <p id="saveFileNameStrange" class="greenText">[strange] - <span class="whiteText">总奇异夸克数</span></p>
+                                        <p id="saveFileNameCosmon" class="darkvioletText">[cosmon] - <span class="whiteText">for total Cosmon</span></p>
+                                        <p id="saveFileNameVacuum" class="orchidText">[vacuum] - <span class="whiteText">当前裂隙状态</span></p>
+                                        <p id="saveFileNameGalaxy" class="grayText">[galaxy] - <span class="whiteText">当前购买星系数</span></p>
+                                        <p id="saveFileNameUniverse" class="darkvioletText">[universe] - <span class="whiteText">当前购买宇宙数</span></p>
+                                        <p class="cyanText">[date<span class="whiteText">Data</span>] - <span class="whiteText">当前日期</span></p>
+                                        <div class="dateGrid">
+                                            <p class="cyanText">Y - <span class="whiteText">年</span></p>
+                                            <p class="cyanText">M - <span class="whiteText">月</span></p>
+                                            <p class="cyanText">D - <span class="whiteText">日</span></p>
+                                        </div>
+                                        <p class="blueText">[time<span class="whiteText">Data</span>] - <span class="whiteText">当前时间</span></p>
+                                        <div class="dateGrid">
+                                            <p class="blueText">H - <span class="whiteText">时</span></p>
+                                            <p class="blueText">M - <span class="whiteText">分</span></p>
+                                            <p class="blueText">S - <span class="whiteText">秒</span></p>
+                                        </div>
+                                        <p class="whiteText center">日期 会依据设置进行分别替换，例如 <br aria-hidden="true"><span class="cyanText">[dateD.M.Y]</span> ⟶ <span class="cyanText">02.02.2000</span></p>
+                                        <p class="redText bigWord center">大小写敏感</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li id="mainLi" title="只要不卡顿，越小越好"><label>自动化间隔 <input type="number" id="mainInterval" min="20" max="100" value="20" step="1"> 毫秒</label></li>
+                            <li><label>数字更新间隔 <input type="number" id="numbersInterval" min="40" max="200" value="80" step="1"> 毫秒</label><button type="button" id="showHints" class="hollowButton" aria-label="Show game hints">提示</button></li>
+                            <li><label>视觉更新间隔 <input type="number" id="visualInterval" min="0.2" max="4" value="1" step="any"> 秒</label><button type="button" id="reviewEvents" class="hollowButton" aria-label="Replay event">事件</button></li>
+                            <li><label>自动保存间隔 <input type="number" id="autoSaveInterval" min="4" max="1800" value="20" step="1"> 秒</label></li>
+                            <li>数字格式化：<label>浮点 <input type="text" id="decimalPoint" class="miniInput" value="." maxlength="1" autocomplete="off"></label>，<label>分隔符 <input type="text" id="thousandSeparator" class="miniInput" value="" maxlength="1" autocomplete="off"></label></li>
+                            <li id="MDLi"><label>移动设备支持<button type="button" id="MDToggle0" class="specialToggle">关</button></label></li>
+                            <li id="SRLi"><label>屏幕阅读器支持<button type="button" id="SRToggle0" class="specialToggle">关</button></label></li>
+                            <li><label>允许选中文本<button type="button" id="globalToggle2" class="specialToggle">关</button></label></li>
+                            <li id="autoStageSwitch"><label>自动切换阶段<button type="button" id="toggleNormal0" class="toggleNormal">关</button></label></li>
+                            <li id="elementsAsTab"><label>独立元素为标签页<button type="button" id="globalToggle1" class="specialToggle">关</button></label></li>
+                            <li aria-hidden="true" title="默认为 16px，图像不缩放"><label>字体大小：<input type="number" id="customFontSize" step="any" min="12" max="24" value="16" tabindex="-1"> px</label></li>
+                        </ul>
+                    </section>
+                    <div class="options">
+                        <section id="autoTogglesUpgrades">
+                            <h3>Automatization</h3>
+                            <div id="autoToggle8">
+                                <label for="toggleAuto8" class="whiteText">Elements <span class="mainText">⟶</span></label>
+                                <button type="button" id="toggleAuto8" class="toggleAuto">Auto OFF</button>
+                            </div>
+                            <div id="autoToggle5">
+                                <label for="toggleAuto5" class="whiteText">Upgrades <span class="mainText">⟶</span></label>
+                                <button type="button" id="toggleAuto5" class="toggleAuto">Auto OFF</button>
+                            </div>
+                            <div id="autoToggle6">
+                                <label for="toggleAuto6" class="whiteText">Stage Researches <span class="mainText">⟶</span></label>
+                                <button type="button" id="toggleAuto6" class="toggleAuto">Auto OFF</button>
+                            </div>
+                            <div id="autoToggle7">
+                                <label for="toggleAuto7" class="whiteText">Special Researches <span class="mainText">⟶</span></label>
+                                <button type="button" id="toggleAuto7" class="toggleAuto">Auto OFF</button>
+                            </div>
+                        </section>
+                        <div id="themeArea" aria-hidden="true">
+                            <h3>当前主题</h3>
+                            <div>
+                                <button type="button" id="currentTheme" class="mainText hollowButton" tabindex="-1">默认</button>
+                                <div>
+                                    <button type="button" id="switchTheme0" class="stageAllborderButton hollowButton stageText">默认</button>
+                                    <button type="button" id="switchTheme1" class="stage1borderButton hollowButton cyanText">微观</button>
+                                    <button type="button" id="switchTheme2" class="stage2borderButton hollowButton blueText">浸没</button>
+                                    <button type="button" id="switchTheme3" class="stage3borderButton hollowButton grayText">积聚</button>
+                                    <button type="button" id="switchTheme4" class="stage4borderButton hollowButton orangeText">星际</button>
+                                    <button type="button" id="switchTheme5" class="stage5borderButton hollowButton darkorchidText">星系</button>
+                                    <button type="button" id="switchTheme6" class="stage6borderButton hollowButton darkvioletText">深渊</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="settingsSubtabHistory" class="insideTab" style="display: none;" aria-label="Current tab">
+                    <div id="historyMainDiv">
+                        <section id="vacuumHistory" class="orchidText">
+                            <h3 class="bigWord">Vacuum resets:</h3>
+                            <p><label>Save <input type="number" id="vacuumHistorySave" max="100" value="5" step="1"></label>, <label>show <input type="number" id="vacuumHistoryShow" min="4" max="100" value="10" step="1"></label></p>
+                            <ol id="vacuumHistoryList">
+                                <li class="redText">Reference list is empty</li>
+                            </ol>
+                            <p>Best reset: <span id="vacuumHistoryBest" class="whiteText">Missing</span></p>
+                        </section>
+                        <section id="stageHistory" class="stageText">
+                            <h3 class="bigWord">Interstellar Stage resets:</h3>
+                            <p><label>Save <input type="number" id="stageHistorySave" max="100" value="5" step="1"></label>, <label>show <input type="number" id="stageHistoryShow" min="4" max="100" value="10" step="1"></label></p>
+                            <ol id="stageHistoryList">
+                                <li class="redText">Reference list is empty</li>
+                            </ol>
+                            <p>Best reset: <span id="stageHistoryBest" class="whiteText">Missing</span></p>
+                        </section>
+                    </div>
+                </section>
+                <section id="settingsSubtabStats" class="insideTab" style="display: none;" aria-label="Current tab">
+                    <div class="stats">
+                        <p>开始游玩：<span class="whiteText"><span id="firstPlay">00.00.0000, 00:00:00</span> (<span id="firstPlayAgo">0 秒</span> 前)</span> | 在线时间：<span id="onlineTotal" class="whiteText">0 秒</span></p>
+                        <p id="exportStats" title="Increased by gaining more than storage value in a single Stage reset">Max export: <span id="exportQuarksMax" class="whiteText">1</span> (<span id="exportQuarksStorage" class="whiteText">1</span> in the storage) <span class="whiteText">Strange quarks</span><span id="exportStatsStrangeletsUnlocked">, <span id="exportStrangeletsMax" class="whiteText">0</span> (<span id="exportStrangeletsStorage" class="whiteText">0</span>) <span class="whiteText">Strangelets</span></span> in <span id="exportTimeToMax" class="whiteText">24 hours</span></p>
+                        <p id="stageResets">阶段重置：<span class="whiteText">0</span></p>
+                        <article class="statsWindows" aria-label="Structures">
+                            <section id="building0Stats">
+                                <h4 class="stageText bigWord">Missing</h4>
+                                <div>
+                                    <p>本次重置</p>
+                                    <span id="building0StatTotal" class="whiteText">0</span>
+                                <div>
+                                </div>
+                                    <p>总计</p>
+                                    <span id="building0StatTrueTotal" class="whiteText">0</span>
+                                </div>
+                            </section>
+                            <section id="building1Stats">
+                                <h4 class="stageText bigWord">Missing</h4>
+                                <div>
+                                    <p>本次重置</p>
+                                    <span id="building1StatTotal" class="whiteText">0</span>
+                                </div>
+                                <div>
+                                    <p>总计</p>
+                                    <span id="building1StatTrueTotal" class="whiteText">0</span>
+                                </div>
+                            </section>
+                            <section id="building2Stats">
+                                <h4 class="stageText bigWord">Missing</h4>
+                                <div>
+                                    <p>本次重置</p>
+                                    <span id="building2StatTotal" class="whiteText">0</span>
+                                </div>
+                                <div>
+                                    <p>总计</p>
+                                    <span id="building2StatTrueTotal" class="whiteText">0</span>
+                                </div>
+                            </section>
+                            <section id="building3Stats">
+                                <h4 class="stageText bigWord">Missing</h4>
+                                <div>
+                                    <p>本次重置</p>
+                                    <span id="building3StatTotal" class="whiteText">0</span>
+                                </div>
+                                <div>
+                                    <p>总计</p>
+                                    <span id="building3StatTrueTotal" class="whiteText">0</span>
+                                </div>
+                            </section>
+                            <section id="building4Stats">
+                                <h4 class="stageText bigWord">Missing</h4>
+                                <div>
+                                    <p>本次重置</p>
+                                    <span id="building4StatTotal" class="whiteText">0</span>
+                                </div>
+                                <div>
+                                    <p>总计</p>
+                                    <span id="building4StatTrueTotal" class="whiteText">0</span>
+                                </div>
+                            </section>
+                            <section id="building5Stats">
+                                <h4 class="stageText bigWord">Missing</h4>
+                                <div>
+                                    <p>本次重置</p>
+                                    <span id="building5StatTotal" class="whiteText">0</span>
+                                </div>
+                                <div>
+                                    <p>总计</p>
+                                    <span id="building5StatTrueTotal" class="whiteText">0</span>
+                                </div>
+                            </section>
+                            <section id="building6Stats">
+                                <h4 class="stageText bigWord">Missing</h4>
+                                <div>
+                                    <p>本次重置</p>
+                                    <span id="building6StatTotal" class="whiteText">0</span>
+                                </div>
+                                <div>
+                                    <p>总计</p>
+                                    <span id="building6StatTrueTotal" class="whiteText">0</span>
+                                </div>
+                            </section>
+                        </article>
+                        <article id="strangeAllStats" class="statsWindows" aria-label="Strange Structures">
+                            <section id="strange0Stats">
+                                <h4 class="greenText bigWord">Quarks</h4>
+                                <div>
+                                    <p>总计</p>
+                                    <span id="strange0StatTotal" class="whiteText">0</span>
+                                </div>
+                            </section>
+                            <section id="strange1Stats">
+                                <h4 class="greenText bigWord">Strangelets</h4>
+                                <div>
+                                    <p>总计</p>
+                                    <span id="strange1StatTotal" class="whiteText">0</span>
+                                </div>
+                            </section>
+                        </article>
+                        <div id="cosmonStat" class="statsWindows">
+                            <section>
+                                <h4 class="darkvioletText bigWord">Cosmon</h4>
+                                <div>
+                                    <p>总计</p>
+                                    <span id="cosmonStatTotal" class="whiteText">0</span>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="stats stage1Only">
+                            <p id="dischargeStat" class="orangeText">「释能」目标完成次数： <span class="whiteText">0</span><span id="dischargeStatTrue" class="cyanText">[0]</span></p>
+                            <section id="energyGainStats">
+                                <h3 class="orangeText">来自购买结构的能量获得：</h3>
+                                <div> <!-- Temporary until can figure out better solution (without using table) -->
+                                    <section class="cyanText stage1borderImage" aria-label="Microworld Stage">
+                                        <div aria-hidden="true">
+                                            <p id="energyGainStage1Build1Name">前子：</p>
+                                            <p id="energyGainStage1Build2Name">夸克：</p>
+                                            <p id="energyGainStage1Build3Name">粒子：</p>
+                                            <p id="energyGainStage1Build4Name">原子</p>
+                                            <p id="energyGainStage1Build5Name">摩尔：</p>
+                                        </div>
+                                        <div>
+                                            <p id="energyGainStage1Build1" aria-describedby="energyGainStage1Build1Name">&nbsp;<span class="greenText">0</span> (每个提供 <span id="energyGainStage1Build1Per" class="greenText">0</span>)</p>
+                                            <p id="energyGainStage1Build2" aria-describedby="energyGainStage1Build2Name">&nbsp;<span class="greenText">0</span> (每个提供 <span id="energyGainStage1Build2Per" class="greenText">0</span>)</p>
+                                            <p id="energyGainStage1Build3" aria-describedby="energyGainStage1Build3Name">&nbsp;<span class="greenText">0</span> (每个提供 <span id="energyGainStage1Build3Per" class="greenText">0</span>)</p>
+                                            <p id="energyGainStage1Build4" aria-describedby="energyGainStage1Build4Name">&nbsp;<span class="greenText">0</span> (每个提供 <span id="energyGainStage1Build4Per" class="greenText">0</span>)</p>
+                                            <p id="energyGainStage1Build5" aria-describedby="energyGainStage1Build5Name">&nbsp;<span class="greenText">0</span> (每个提供 <span id="energyGainStage1Build5Per" class="greenText">0</span>)</p>
+                                        </div>
+                                    </section>
+                                    <section id="energyGainStage2" class="blueText stage2borderImage" aria-label="Submerged Stage">
+                                        <div aria-hidden="true">
+                                            <p id="energyGainStage2Build1Name">Drops:</p>
+                                            <p id="energyGainStage2Build2Name">Puddles:</p>
+                                            <p id="energyGainStage2Build3Name">Ponds:</p>
+                                            <p id="energyGainStage2Build4Name">Lakes:</p>
+                                            <p id="energyGainStage2Build5Name">Seas:</p>
+                                            <p id="energyGainStage2Build6Name">Oceans:</p>
+                                        </div>
+                                        <div>
+                                            <p id="energyGainStage2Build1" aria-describedby="energyGainStage2Build1Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage2Build1Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage2Build2" aria-describedby="energyGainStage2Build2Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage2Build2Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage2Build3" aria-describedby="energyGainStage2Build3Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage2Build3Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage2Build4" aria-describedby="energyGainStage2Build4Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage2Build4Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage2Build5" aria-describedby="energyGainStage2Build5Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage2Build5Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage2Build6" aria-describedby="energyGainStage2Build6Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage2Build6Per" class="greenText">0</span> per)</p>
+                                        </div>
+                                    </section>
+                                    <section id="energyGainStage3" class="grayText stage3borderImage" aria-label="Accretion Stage">
+                                        <div aria-hidden="true">
+                                            <p id="energyGainStage3Build1Name">Cosmic dust:</p>
+                                            <p id="energyGainStage3Build2Name">Planetesimals:</p>
+                                            <p id="energyGainStage3Build3Name">Protoplanets:</p>
+                                            <p id="energyGainStage3Build4Name">Satellites:</p>
+                                            <p id="energyGainStage3Build5Name">Subsatellites:</p>
+                                        </div>
+                                        <div>
+                                            <p id="energyGainStage3Build1" aria-describedby="energyGainStage3Build1Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage3Build1Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage3Build2" aria-describedby="energyGainStage3Build2Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage3Build2Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage3Build3" aria-describedby="energyGainStage3Build3Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage3Build3Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage3Build4" aria-describedby="energyGainStage3Build4Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage3Build4Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage3Build5" aria-describedby="energyGainStage3Build5Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage3Build5Per" class="greenText">0</span> per)</p>
+                                        </div>
+                                    </section>
+                                    <section id="energyGainStage4" class="orangeText stage4borderImage" aria-label="Interstellar Stage">
+                                        <div aria-hidden="true">
+                                            <p id="energyGainStage4Build1Name">Brown dwarfs:</p>
+                                            <p id="energyGainStage4Build2Name">Main sequence:</p>
+                                            <p id="energyGainStage4Build3Name">Red supergiants:</p>
+                                            <p id="energyGainStage4Build4Name">Blue hypergiants:</p>
+                                            <p id="energyGainStage4Build5Name">Quasi-stars:</p>
+                                        </div>
+                                        <div>
+                                            <p id="energyGainStage4Build1" aria-describedby="energyGainStage4Build1Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage4Build1Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage4Build2" aria-describedby="energyGainStage4Build2Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage4Build2Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage4Build3" aria-describedby="energyGainStage4Build3Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage4Build3Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage4Build4" aria-describedby="energyGainStage4Build4Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage4Build4Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage4Build5" aria-describedby="energyGainStage4Build5Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage4Build5Per" class="greenText">0</span> per)</p>
+                                        </div>
+                                    </section>
+                                    <section id="energyGainStage5" class="darkorchidText stage5borderImage" aria-label="Intergalactic Stage">
+                                        <div aria-hidden="true">
+                                            <p id="energyGainStage5Build1Name">Nebulas:</p>
+                                            <p id="energyGainStage5Build2Name">Star clusters:</p>
+                                            <p id="energyGainStage5Build3Name">Galaxies:</p>
+                                        </div>
+                                        <div>
+                                            <p id="energyGainStage5Build1" aria-describedby="energyGainStage5Build1Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage5Build1Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage5Build2" aria-describedby="energyGainStage5Build2Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage5Build2Per" class="greenText">0</span> per)</p>
+                                            <p id="energyGainStage5Build3" aria-describedby="energyGainStage5Build3Name">&nbsp;<span class="greenText">0</span> (<span id="energyGainStage5Build3Per" class="greenText">0</span> per)</p>
+                                        </div>
+                                    </section>
+                                </div>
+                            </section>
+                            <p id="maxEnergyStat" class="orangeText">最多能量： <span class="whiteText">0</span></p>
+                        </div>
+                        <div class="stats stage2Only">
+                            <section id="vaporizationBoost">
+                                <h3 class="grayText">蒸发后提供的加成</h3>
+                                <p id="cloudStat" class="grayText">云：<span class="greenText">1</span></p>
+                                <p id="rainStat" class="blueText">积雨云：<span class="greenText">1</span></p>
+                                <p id="stormStat" class="orangeText">雷暴云：<span class="greenText">1</span></p>
+                                <h4 class="darkorchidText">总计：<span id="cloudEffectTotal" class="greenText">1</span></h4>
+                            </section>
+                            <p id="maxCloudStat" class="grayText">最多云：<span class="blueText">0</span></p>
+                        </div>
+                        <div class="stats stage3Only">
+                            <p class="grayText">Current Rank: <span id="currentRank" class="darkorchidText">0</span></p>
+                            <div class="imageList">
+                                <img src="Used_art/Ocean%20world.png" alt="Ocean world" loading="lazy" draggable="false" title="Ocean world" id="rankStat0">
+                                <img src="Used_art/Dust.png" alt="Cosmic dust" loading="lazy" draggable="false" title="Cosmic dust" id="rankStat1">
+                                <img src="Used_art/Meteoroids.png" alt="Meteoroid" loading="lazy" draggable="false" title="Meteoroid" id="rankStat2">
+                                <img src="Used_art/Asteroid.png" alt="Asteroid" loading="lazy" draggable="false" title="Asteroid" id="rankStat3">
+                                <img src="Used_art/Planet.png" alt="Planet" loading="lazy" draggable="false" title="Planet" id="rankStat4">
+                                <img src="Used_art/Giant.png" alt="Jovian planet" loading="lazy" draggable="false" title="Jovian planet" id="rankStat5">
+                                <img src="Used_art/Protostar.png" alt="Protostar" loading="lazy" draggable="false" title="Protostar" id="rankStat6">
+                                <img src="Used_art/Protogalaxy.png" alt="Protogalaxy" loading="lazy" draggable="false" title="Protogalaxy" id="rankStat7">
+                            </div>
+                        </div>
+                        <div class="stats stage4Only">
+                            <section>
+                                <h3 class="orangeText">Boost after Collapse</h3>
+                                <p id="solarMassStat" class="cyanText">Solar mass: <span class="greenText">1</span></p>
+                                <p id="star1Stat" class="redText">Red giants: <span class="greenText">1</span></p>
+                                <p id="star2Stat" class="darkvioletText">Neutron stars: <span class="greenText">1</span></p>
+                                <p id="star3Stat" class="grayText">Black holes: <span class="greenText">1</span></p>
+                                <p id="gammaRayStat" class="darkvioletText">Gamma-ray burst: <span class="greenText">1</span></p>
+                                <p id="quasarStat" class="redText">Quasar: <span class="greenText">1</span> ^2</p>
+                                <h4 class="orchidText">总计 <span id="starTotal" class="greenText">1</span></h4>
+                            </section>
+                        </div>
+                        <p class="redText stage5Only">Self-made Stars: <span id="trueStarsStat" class="orangeText">0</span></p>
+                        <div class="stats stage6Only">
+                            <p class="orchidText">Vacuum state: <span id="vacuumState">False</span></p>
+                            <p class="orchidText">Vacuum resets: <span id="vacuumResets" class="darkorchidText">0</span></p>
+                        </div>
+                        <p id="maxSolarMassStat" class="cyanText">Highest Solar mass: <span class="orchidText">0.01235</span></p>
+                    </div>
+                </section>
+            </div>
+            <div id="fakeFooter"></div>
+            <footer id="footer" aria-label="Footer">
+                <div>
+                    <nav id="stageSelect" class="active" style="display: none;">
+                        <button type="button" id="currentSwitch" class="stageText stageAllborderButton" tabindex="-1" aria-hidden="true">Microworld</button>
+                        <div>
+                            <!-- [stageName] + 'Switch' -->
+                            <button type="button" class="stage1borderButton stage1Include cyanText" id="MicroworldSwitch" tabindex="-1">微观</button>
+                            <button type="button" class="stage2borderButton stage2Include blueText" id="SubmergedSwitch" tabindex="-1">浸没</button>
+                            <button type="button" class="stage3borderButton stage3Include grayText" id="AccretionSwitch" tabindex="-1">积聚</button>
+                            <button type="button" class="stage4borderButton stage4Include orangeText" id="InterstellarSwitch" tabindex="-1">星际</button>
+                            <button type="button" class="stage5borderButton stage5Include darkorchidText" id="IntergalacticSwitch" tabindex="-1">星系</button>
+                            <button type="button" class="stage6borderButton stage6Include darkvioletText" id="AbyssSwitch" tabindex="-1">深渊</button>
+                        </div>
+                    </nav>
+                    <nav id="subtabs" style="display: none;">
+                        <!-- [tabName] + 'SubtabBtn' + [subtabName] -->
+                        <button type="button" id="stageSubtabBtnStructures" class="tabActive" tabindex="-1" style="display: none;">结构</button>
+                        <button type="button" id="stageSubtabBtnAdvanced"  tabindex="-1" style="display: none;">高级</button>
+                        <button type="button" id="upgradeSubtabBtnUpgrades" class="tabActive" tabindex="-1" style="display: none;">升级</button>
+                        <button type="button" id="upgradeSubtabBtnElements" tabindex="-1" style="display: none;">元素</button>
+                        <button type="button" id="strangenessSubtabBtnMatter" class="tabActive" tabindex="-1" style="display: none;">物质</button>
+                        <button type="button" id="strangenessSubtabBtnMilestones" tabindex="-1" style="display: none;">里程碑</button>
+                        <button type="button" id="inflationSubtabBtnResearches" class="tabActive" tabindex="-1" style="display: none;">研究</button>
+                        <button type="button" id="inflationSubtabBtnMilestones" tabindex="-1" style="display: none;">里程碑</button>
+                        <button type="button" id="settingsSubtabBtnSettings" class="tabActive" tabindex="-1" style="display: none;">设置</button>
+                        <button type="button" id="settingsSubtabBtnHistory" tabindex="-1" style="display: none;">历史</button>
+                        <button type="button" id="settingsSubtabBtnStats" tabindex="-1" style="display: none;">统计信息</button>
+                    </nav>
+                    <div id="phoneHotkeys">
+                        <aside id="hideToggle" aria-hidden="true">
+                            <p>收起</p>
+                            <div id="hideArrow"></div>
+                        </aside>
+                    </div>
+                </div>
+                <div id="footerMain">
+                    <section id="footerStats" aria-label="Resources">
+                        <div id="footerStat1">
+                            <img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false">
+                            <p class="stage7borderImage redText"><span>Missing</span>:&nbsp;<span id="footerStat1Span">0</span></p>
+                        </div>
+                        <div id="footerStat2">
+                            <img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false">
+                            <p class="stage7borderImage redText"><span>Missing</span>:&nbsp;<span id="footerStat2Span">0</span></p>
+                        </div>
+                        <div id="footerStat3">
+                            <img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false">
+                            <p class="stage7borderImage redText"><span>Missing</span>:&nbsp;<span id="footerStat3Span">0</span></p>
+                        </div>
+                    </section>
+                    <nav>
+                        <button type="button" id="stageTabBtn" class="tabActive" tabindex="-1">阶段</button>
+                        <button type="button" id="upgradeTabBtn" tabindex="-1">升级</button>
+                        <button type="button" id="strangenessTabBtn" tabindex="-1">奇异特性</button>
+                        <button type="button" id="inflationTabBtn" class="stage6Include" tabindex="-1">膨胀</button>
+                        <button type="button" id="settingsTabBtn" tabindex="-1">设置</button>
+                    </nav>
+                </div>
+            </footer>
+        </main>
+    </body>
+</html>
