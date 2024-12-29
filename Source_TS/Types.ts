@@ -217,6 +217,7 @@ export interface globalType {
     }
     stageInfo: {
         word: string[]
+        text: string[]
         textColor: string[]
         buttonBorder: string[]
         imageBorderColor: string[]
@@ -226,7 +227,7 @@ export interface globalType {
         maxActive: number[]
         name: string[][]
         hoverText: string[][]
-        type: Array<Array<'producing' | 'improving' | 'delaying'>>
+        type: Array<Array<'生产' | '加成' | '延迟'>>
         startCost: number[][]
         increase: number[][]
         producing: Overlimit[][]

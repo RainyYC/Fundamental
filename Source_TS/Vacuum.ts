@@ -12,7 +12,7 @@ export const prepareVacuum = (state: boolean) => { //Must not use direct player 
 
     if (state) {
         getId('mergeResetText').innerHTML = '<span class="darkvioletText">Merge</span> does a <span class="grayText">Galaxy</span> reset, while also converting self-made <span class="grayText">Galaxies</span> into non self-made.';
-        specialHTML.footerStatsHTML[1][0] = ['Energy%20mass.png', 'stage1borderImage cyanText', 'Mass'];
+        specialHTML.footerStatsHTML[1][0] = ['Energy%20mass.png', 'stage1borderImage cyanText', '质量'];
         buildingsInfo.hoverText[2][0] = 'Tritium';
         buildingsInfo.hoverText[3][0] = 'Preons hardcap';
         buildings[1][0].current.setValue('5.476e-3');
@@ -25,8 +25,8 @@ export const prepareVacuum = (state: boolean) => { //Must not use direct player 
             buildingsInfo.hoverText[1].unshift('Mass', 'Preons');
         }
         buildingsInfo.startCost[1] = [0, 0.005476, 6, 3, 24, 3];
-        buildingsInfo.type[2][0] = 'improving';
-        buildingsInfo.type[3][0] = 'delaying';
+        buildingsInfo.type[2][0] = '加成';
+        buildingsInfo.type[3][0] = '延迟';
         star3ExpId.textContent = 'Boost to Solar mass gain and delay to Preons hardcap';
 
         upgrades1Cost = [40, 60, 100, 120, 180, 360, 1200, 3600, 12000, 80000];
@@ -100,9 +100,9 @@ export const prepareVacuum = (state: boolean) => { //Must not use direct player 
         getId('strangeletsEffect1Disabled').style.display = 'none';
         getId('stageAutoElse').style.display = 'none';
     } else {
-        specialHTML.footerStatsHTML[1][0] = ['Quarks.png', 'stage1borderImage cyanText', 'Quarks'];
-        buildingsInfo.hoverText[2][0] = 'Moles';
-        buildingsInfo.hoverText[3][0] = 'Mass';
+        specialHTML.footerStatsHTML[1][0] = ['Quarks.png', 'stage1borderImage cyanText', '夸克'];
+        buildingsInfo.hoverText[2][0] = '摩尔';
+        buildingsInfo.hoverText[3][0] = '质量';
         buildings[1][0].current.setValue('3');
         buildings[2][0].current.setValue('2.7753108348135e-3');
         buildings[3][0].current.setValue('1e-19');
@@ -113,8 +113,8 @@ export const prepareVacuum = (state: boolean) => { //Must not use direct player 
         }
         buildingsActive = [4, 6, 5, 5];
         buildingsInfo.startCost[1] = [0, 3, 24, 3];
-        buildingsInfo.type[2][0] = 'producing';
-        buildingsInfo.type[3][0] = 'producing';
+        buildingsInfo.type[2][0] = '生产';
+        buildingsInfo.type[3][0] = '生产';
         star3ExpId.textContent = 'Boost to Solar mass gain';
 
         upgrades1Cost = [0, 0, 12, 36, 120, 240, 480, 1600, 3200, 20800];

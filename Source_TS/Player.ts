@@ -405,6 +405,7 @@ export const global: globalType = { //For information that doesn't need to be sa
     },
     stageInfo: {
         word: ['', 'Microworld', 'Submerged', 'Accretion', 'Interstellar', 'Intergalactic', 'Abyss'],
+        text: ['', '微观', '浸没', '积聚', '星际', '星系', '深渊'],
         textColor: ['', 'cyan', 'blue', 'gray', 'orange', 'darkorchid', 'darkviolet'],
         buttonBorder: ['', 'darkcyan', '#386cc7', '#424242', '#a35700', '#8f004c', '#6c1ad1'],
         imageBorderColor: ['', '#008b8b', '#1460a8', '#5b5b75', '#e87400', '#b324e2', '#5300c1'],
@@ -414,8 +415,8 @@ export const global: globalType = { //For information that doesn't need to be sa
         maxActive: [0, 4, 6, 5, 5, 4, 2], //Need to also count index [0]
         name: [
             [],
-            ['Mass', 'Preons', 'Quarks', 'Particles', 'Atoms', 'Molecules'], //[0] Must be 'Mass'
-            ['Moles', 'Drops', 'Puddles', 'Ponds', 'Lakes', 'Seas', 'Oceans'],
+            ['Mass', '前子', '夸克', '粒子', '原子', '分子'], //[0] Must be 'Mass' // but why
+            ['摩尔', '水滴', '水洼', '池塘', '湖泊', '海洋', '大洋'],
             ['Mass', 'Cosmic dust', 'Planetesimals', 'Protoplanets', 'Satellites', 'Subsatellites'],
             ['Elements', 'Brown dwarfs', 'Main sequence', 'Red supergiants', 'Blue hypergiants', 'Quasi-stars'],
             ['Stars', 'Nebulas', 'Star clusters', 'Galaxies'],
@@ -423,8 +424,8 @@ export const global: globalType = { //For information that doesn't need to be sa
         ],
         hoverText: [
             [],
-            ['Mass', 'Preons', 'Quarks', 'Particles', 'Atoms'],
-            ['Tritium', 'Drops', 'Puddles', 'Ponds', 'Lakes', 'Seas'],
+            ['质量', '前子', '夸克', '粒子', '原子'],
+            ['Tritium', '水滴', '水洼', '池塘', '湖泊', '海洋'],
             ['Preons hardcap', 'Cosmic dust', 'Planetesimals', 'Protoplanets', 'Satellites'],
             ['Elements', 'Elements', 'Elements', 'Elements', 'Elements'],
             ['Interstellar Stars', 'Interstellar Stars', 'Nebulas and Star clusters'],
@@ -432,12 +433,12 @@ export const global: globalType = { //For information that doesn't need to be sa
         ],
         type: [ //Visual only
             [],
-            ['producing', 'producing', 'producing', 'producing', 'producing'],
-            ['producing', 'producing', 'improving', 'improving', 'improving', 'improving'],
-            ['producing', 'producing', 'producing', 'improving', 'improving'],
-            ['producing', 'producing', 'producing', 'producing', 'producing'],
-            ['producing', 'improving', 'improving'],
-            ['producing']
+            ['生产', '生产', '生产', '生产', '生产'],
+            ['生产', '生产', '加成', '加成', '加成', '加成'],
+            ['生产', '生产', '生产', '加成', '加成'],
+            ['生产', '生产', '生产', '生产', '生产'],
+            ['生产', '加成', '加成'],
+            ['生产']
         ],
         startCost: [
             [],
@@ -469,61 +470,61 @@ export const global: globalType = { //For information that doesn't need to be sa
     upgradesInfo: [
         {} as globalType['upgradesInfo'][0], { //Stage 1
             name: [
-                'Weak force',
-                'Strong force',
-                'Electrons',
-                'Protons',
-                'Neutrons',
-                'Superposition',
-                'Protium',
-                'Deuterium',
-                'Tritium',
-                'Nuclear fusion'
+                '弱力',
+                '强力',
+                '电子',
+                '质子',
+                '中子',
+                '迭合',
+                '氕',
+                '氘',
+                '氚',
+                '核聚变'
             ],
             effectText: [
-                () => 'Particles will produce 8 times more Quarks.',
-                () => 'Gluons will be able to bind Quarks into Particles, which will make Particles 16 times cheaper.',
-                () => `${player.inflation.vacuum ? 'Atoms' : 'Particles'} will be 8 times cheaper.`,
-                () => `Atoms will produce ${player.inflation.vacuum ? 6 : 4} times more Particles.${player.upgrades[1][3] !== 1 && player.upgrades[1][5] !== 1 && player.buildings[1][player.inflation.vacuum ? 4 : 2].total.lessOrEqual('0') ? "\n(Can't be created due to not having any Atoms)" : ''}`,
-                () => `Molecules will produce 4 times more Atoms.${player.upgrades[1][4] !== 1 && player.upgrades[1][5] !== 1 && player.buildings[1][player.inflation.vacuum ? 5 : 3].total.lessOrEqual('0') ? "\n(Can't be created due to not having any Molecules)" : ''}`,
-                () => `Ability to regain spent Energy and if had enough Energy will also boost production for all ${player.inflation.vacuum ? 'Microworld ' : ''}Structures by ${format(global.dischargeInfo.base, { padding: true })}.${player.inflation.vacuum ? `\n(In true Vacuum it will also reset resources and all non-self made Structures from all Stages${player.stage.true >= 7 ? ' before Abyss' : ''}, and enough self-made Structures to fully regain spent Energy)` : ''}`,
-                () => `Decrease Structures cost scaling by -${format(calculateEffects.S1Upgrade6() / 100)}.`,
+                () => '粒子生产 8 倍夸克。',
+                () => '层子使夸克紧密连结为粒子，使粒子变得 16 倍便宜。',
+                () => `${player.inflation.vacuum ? '原子' : '粒子'}变得 8 倍便宜。`,
+                () => `原子生产 ${player.inflation.vacuum ? 6 : 4} 倍粒子。${player.upgrades[1][3] !== 1 && player.upgrades[1][5] !== 1 && player.buildings[1][player.inflation.vacuum ? 4 : 2].total.lessOrEqual('0') ? '\n(没有原子时无法购买)' : ''}`,
+                () => `分子生产 4 倍原子。${player.upgrades[1][4] !== 1 && player.upgrades[1][5] !== 1 && player.buildings[1][player.inflation.vacuum ? 5 : 3].total.lessOrEqual('0') ? '\n(没有分子时无法购买)' : ''}`,
+                () => `使你可以重新获得花费掉的能量，并在能量达到目标时为所有${player.inflation.vacuum ? ' 微观  ' : ''}结构的生产提供 ${format(global.dischargeInfo.base, { padding: true })} 倍加成。${player.inflation.vacuum ? `\n(In true Vacuum it will also reset resources and all non-self made Structures from all Stages${player.stage.true >= 7 ? ' before Abyss' : ''}, and enough self-made Structures to fully regain spent Energy)` : ''}`,
+                () => `使结构的价格增长降低 ${format(calculateEffects.S1Upgrade6() / 100)}。`,
                 () => { //[7]
                     const selfBoost = calculateEffects.S1Upgrade7();
                     const selfPreons = calculateEffects.S1Upgrade7(true);
-                    return `Make self-made Structures boost themselves by ${format(selfBoost)}.${player.inflation.vacuum ? `\n(Self-made Preons boost themselves by ${format(new Overlimit(selfBoost / selfPreons).power((player.buildings[1][1].true - 1) / 1000).multiply(selfPreons), { padding: true })} instead, softcaps instantly)` : ''}`;
+                    return `购买获得的结构对其自身提供 ${format(selfBoost)} 加成。${player.inflation.vacuum ? `\n(购买的前子加成自身 ${format(new Overlimit(selfBoost / selfPreons).power((player.buildings[1][1].true - 1) / 1000).multiply(selfPreons), { padding: true })}，软上限立刻开始。` : ''}`;
                 },
-                () => `Molecules will produce Molecules. At a reduced rate.\n(${format(global.dischargeInfo.tritium, { padding: true })} Molecules per second)`,
-                () => `Unspent Energy ^${format(0.5)} will boost 'Tritium' production of Molecules.\n(Boost: ${format(Math.max(player.discharge.energy, 1) ** 0.5, { padding: true })})`
+                () => `分子以递减的速度产生分子。\n(${format(global.dischargeInfo.tritium, { padding: true })} 分子 / 秒)`,
+                () => `未使用的能量^${format(0.5)} 加成至「氚」的分子生产。\n(加成：${format(Math.max(player.discharge.energy, 1) ** 0.5, { padding: true })})`
             ],
             startCost: [40, 60, 100, 120, 180, 360, 1200, 3600, 12000, 80000],
             maxActive: 10
         }, { //Stage 2
             name: [
-                'Molecules to Moles',
-                'Water spread',
-                'Vaporization',
-                'Surface tension',
-                'Surface stress',
-                'Stream',
-                'River',
+                '分子到摩尔',
+                '泛流', // Water spread, not yet decided
+                '蒸发',
+                '表面张力',
+                '表面应力',
+                '溪流',
+                '河流',
                 'Tsunami',
                 'Tide'
             ],
             effectText: [
-                () => `Drops will ${player.inflation.vacuum ? 'improve Tritium' : 'produce Moles'} ${format(player.inflation.vacuum ? 1.02 : 1.04)} times ${player.inflation.vacuum ? 'more' : 'faster'} for every self-made Drop.${player.upgrades[2][0] !== 1 && player.buildings[2][1].true < 1 && player.buildings[2][2].current.lessThan('1') ? "\n(Can't be created due to not having any self-made Drops)" : ''}`,
-                () => `Spread water faster with every Puddle, current formula is ${format(1.02)} ^ effective Puddles.\nPuddles after 200 and non self-made ones are raised to the power of ${format(0.7)}.\n(Total effect: ${format(calculateEffects.S2Upgrade1(), { padding: true })})`,
-                () => `Gain ability to convert Drops into Clouds. Cloud gain formula is '(Clouds ^ (1 / softcap) + (Drops / ${format(calculateEffects.S2Upgrade2())})) ^ softcap - Clouds', softcap is ${format(player.challenges.active === 0 ? 0.4 : player.inflation.vacuum ? 0.5 : 0.6)}.`,
+                () => `对于每个购买的水滴，水滴额外${player.inflation.vacuum ? '加成' : '生产'} ${format(player.inflation.vacuum ? 1.02 : 1.04)} 倍${player.inflation.vacuum ? '「氚」' : '摩尔'}。${player.upgrades[2][0] !== 1 && player.buildings[2][1].true < 1 && player.buildings[2][2].current.lessThan('1') ? '\n(没有购买的水滴时无法购买)' : ''}`,
+                () => `每个水洼使水扩散更快，当前加成公式：${format(1.02)} ^ 有效水洼。\n超过 200 个的以及非购买获得的水洼以 ${format(0.7)} 次幂计入。\n(当前效果: ${format(calculateEffects.S2Upgrade1(), { padding: true })})`,
+                () => `获得将水滴转换为云的能力。云获取公式为 '(云 ^ (1 / 软上限) + (水滴 / ${format(calculateEffects.S2Upgrade2())})) ^ 软上限 - 云'，当前软上限为 ${format(player.challenges.active === 0 ? 0.4 : player.inflation.vacuum ? 0.5 : 0.6)}。`,
                 () => { //[3]
                     const power = calculateEffects.S2Upgrade3();
-                    return `Puddles will get a boost based on Moles ^${format(power)}.\n(Boost: ${format(new Overlimit(player.buildings[2][0].current).max('1').power(power), { padding: true })})`;
+                    return `基于摩尔的 ${format(power)} 次幂，加成水洼。\n(当前效果：${format(new Overlimit(player.buildings[2][0].current).max('1').power(power), { padding: true })})`;
                 },
                 () => { //[4]
                     const power = calculateEffects.S2Upgrade4();
-                    return `Puddles will get a boost based on Drops ^${format(power)}.\n(Boost: ${format(new Overlimit(player.buildings[2][1].current).max('1').power(power), { padding: true })})`;
+                    return `基于水滴的 ${format(power)} 次幂，加成水洼。\n(当前效果：${format(new Overlimit(player.buildings[2][1].current).max('1').power(power), { padding: true })})`;
                 },
-                () => `Ponds will increase current Puddle amount. (${format(calculateEffects.S2Upgrade5())} extra Puddles per Pond)`,
-                () => `Lakes will increase current Pond amount. (${format(calculateEffects.S2Upgrade6())} extra Ponds per Lake)`,
+                () => `池塘提供额外的水洼。(每个池塘提供 ${format(calculateEffects.S2Upgrade5())} 个)`,
+                () => `湖泊提供额外的池塘。(每个湖泊提供 ${format(calculateEffects.S2Upgrade6())} 个)`,
                 () => 'Spreads enough water to make Seas increase current Lake amount. (1 extra Lakes per Sea)',
                 () => 'Spreads water too fast. 1 extra Seas per Ocean.\nAlso will improve Oceans effect scaling.'
             ],
@@ -604,23 +605,23 @@ export const global: globalType = { //For information that doesn't need to be sa
     researchesInfo: [
         {} as globalType['researchesInfo'][0], { //Stage 1
             name: [
-                'Stronger Protium',
-                'Better Deuterium',
-                'Improved Tritium',
-                'Requirement decrease',
-                'Discharge improvement',
-                'Radioactive Discharge'
+                '更强的氕',
+                '更好的氘',
+                '更快的氚',
+                '要求降低',
+                '释能改进',
+                '辐射释能'
             ],
             effectText: [
-                () => `Cost scaling will be -${format(0.03)} smaller with each level.`,
-                () => `Self-made Structures will boost each other by additional +${format(0.01)}.`,
-                () => `Molecules will produce themselves ${format(calculateEffects.S1Research2())} times quicker.`,
-                () => `Discharge goals requirement will scale slower. (-2)\n(Creating this Research will make next Discharge goal to be ${format((getDischargeScale() - 2) ** player.discharge.current)} Energy)`,
+                () => `每级使价格增长降低 ${format(0.03)}。`,
+                () => `购买获得的结构对其自身提供 ${format(0.01)} 加成。`,
+                () => `分子产生分子的速度提高 ${format(calculateEffects.S1Research2())} 倍。`,
+                () => `「释能」目标需求的增长降低。 (-2)\n(购买这项研究会让当前「释能」目标变为 ${format((getDischargeScale() - 2) ** player.discharge.current)} 能量)`,
                 () => { //[4]
                     const newBase = calculateEffects.dischargeBase(player.researches[1][4] + 1);
-                    return `Discharge production boost from reached goals will be increased by +${format(newBase - global.dischargeInfo.base)}.\n(This is equal to ${format((newBase / global.dischargeInfo.base) ** global.dischargeInfo.total, { padding: true })}x boost improvement)`;
+                    return `由达成「释能」目标所提供的生成加成增加 ${format(newBase - global.dischargeInfo.base)}。\n(当前等价于 ${format((newBase / global.dischargeInfo.base) ** global.dischargeInfo.total, { padding: true })} 倍加成)`;
                 },
-                () => `Discharge goals will be able to boost 'Tritium'.\n(Current effect: ${format(calculateEffects.S1Research5())} ^ level)`
+                () => `「释能」目标可以加成「氚」。\n(当前效果：${format(calculateEffects.S1Research5())} ^ 等级)`
             ],
             cost: [],
             startCost: [1600, 4800, 16000, 32000, 16000, 24000],
@@ -629,20 +630,20 @@ export const global: globalType = { //For information that doesn't need to be sa
             maxActive: 6
         }, { //Stage 2
             name: [
-                'Better Mole production',
-                'Better Drop production',
-                'Stronger surface tension',
-                'Stronger surface stress',
-                'More streams',
-                'Distributary channel'
+                '更好的摩尔生产',
+                '更好的水滴生产',
+                '更强的表面张力',
+                '更强的表面应力',
+                '更多的溪流',
+                '支流'
             ],
             effectText: [
-                () => `Drops will ${player.inflation.vacuum ? 'improve Tritium' : 'produce Moles'} 3 times more.${player.upgrades[2][2] === 1 || player.inflation.vacuum ? `\nEffective level ${global.vaporizationInfo.trueResearch0 !== player.researches[2][0] ? `is ${format(global.vaporizationInfo.trueResearch0, { padding: true })}, will be restored with more Drops` : 'will be set to 0 after any Reset'}.` : ''}`,
-                () => `Puddles will produce 2 times more Drops.${player.upgrades[2][2] === 1 || player.inflation.vacuum ? `\nEffective level ${global.vaporizationInfo.trueResearch1 !== player.researches[2][1] ? `is ${format(global.vaporizationInfo.trueResearch1, { padding: true })}, will be restored with more Drops` : 'will be set to 0 after any Reset'}.` : ''}`,
-                () => `'Surface tension' base will be +${format(0.005)} stronger.\n(This is equal to ${format(new Overlimit(player.buildings[2][0].current).max('1').power(calculateEffects.S2Upgrade3(player.researches[2][2] + 1) - calculateEffects.S2Upgrade3()).toNumber(), { padding: true })}x boost improvement)`,
-                () => `'Surface stress' base will be +${format(0.005)} stronger.\n(This is equal to ${format(new Overlimit(player.buildings[2][1].current).max('1').power(calculateEffects.S2Upgrade4(player.researches[2][3] + 1) - calculateEffects.S2Upgrade4()).toNumber(), { padding: true })}x boost improvement)`,
-                () => 'With more streams, will be able to have even more extra Puddles. (+1 extra Puddles per Pond)',
-                () => 'Rivers will be able to split, which will allow even more Ponds per Lake. (+1 per)'
+                () => `水滴 3 倍${player.inflation.vacuum ? '提升「氚」' : '生产摩尔'}。${player.upgrades[2][2] === 1 || player.inflation.vacuum ? `\n有效等级${global.vaporizationInfo.trueResearch0 !== player.researches[2][0] ? `为 ${format(global.vaporizationInfo.trueResearch0, { padding: true })}，获得更多水滴以恢复有效等级` : '会在任何重置后被清空至 0'}。` : ''}`,
+                () => `水洼 2 倍生产水滴。${player.upgrades[2][2] === 1 || player.inflation.vacuum ? `\n有效等级${global.vaporizationInfo.trueResearch1 !== player.researches[2][1] ? `为 ${format(global.vaporizationInfo.trueResearch1, { padding: true })}，获得更多水滴以恢复有效等级` : '会在任何重置后被清空至 0'}。` : ''}`,
+                () => `「表面张力」的底数提高 ${format(0.005)}。\n(等价于 ${format(new Overlimit(player.buildings[2][0].current).max('1').power(calculateEffects.S2Upgrade3(player.researches[2][2] + 1) - calculateEffects.S2Upgrade3()).toNumber(), { padding: true })} 倍加成)`,
+                () => `「表面应力」的底数提高 ${format(0.005)}。\n(等价于 ${format(new Overlimit(player.buildings[2][1].current).max('1').power(calculateEffects.S2Upgrade4(player.researches[2][3] + 1) - calculateEffects.S2Upgrade4()).toNumber(), { padding: true })} 倍加成)`,
+                () => '更多的溪流会使你从中获得更多的水洼 (每个池塘再额外获得 1 个水洼)',
+                () => '河流将分支出支流，使你从湖泊中获得更多池塘。 (每个湖泊再额外获得 1 个池塘)'
             ],
             cost: [],
             startCost: [10, 400, 1e4, 1e5, 1e14, 1e22],
@@ -765,21 +766,21 @@ export const global: globalType = { //For information that doesn't need to be sa
             maxActive: 0
         }, { //Stage 2
             name: [
-                'Natural Vaporization',
-                'Rain Clouds',
-                'Storm Clouds',
+                '蒸腾',
+                '积雨云',
+                '雷暴云',
                 'Water Accretion'
             ],
             effectText: [
-                () => 'When formed Clouds will use Drops produced this reset instead of current ones.',
+                () => '计算云获取量时，水滴数以当前重置生产总量计，而非当前拥有数量。',
                 () => { //[1]
                     const maxLevel = player.researchesExtra[2][1];
                     const trueLevel = global.vaporizationInfo.trueResearchRain;
                     const penalty = player.buildings[2][2].current.lessThan('1');
                     const effect = calculateEffects.S2Extra1;
-                    return `Some Clouds will start pouring Drops themselves. This will boost Puddles, even if there are none, based on current Clouds.${player.researchesExtra[2][2] < 1 ? `\nEffective level ${trueLevel !== maxLevel ? `is ${format(trueLevel, { padding: true })}, will be restored with more Drops, this doesn't` : 'will be set to 0 after any Reset, this will not'} affect pre Puddles boost.` : ''}\n(Effect: ${format(penalty ? (effect(maxLevel) - 1) : effect(trueLevel), { padding: true })} ⟶ ${format(penalty ? (effect(maxLevel + 1) - 1) : effect(maxLevel + (trueLevel === maxLevel ? 1 : 0)), { padding: true })}, weaker after ${format(1e6)} Clouds)`;
+                    return `一部分云开始落下雨滴。基于当前云数加成水洼，即使还没有水洼。${player.researchesExtra[2][2] < 1 ? `\n有效等级${trueLevel !== maxLevel ? `为 ${format(trueLevel, { padding: true })}，随着获得更多水滴而恢复` : '会在任何重置后被清空至 0'}，不影响水洼之前的增益` : ''}\n(当前效果：${format(penalty ? (effect(maxLevel) - 1) : effect(trueLevel), { padding: true })} ⟶ ${format(penalty ? (effect(maxLevel + 1) - 1) : effect(maxLevel + (trueLevel === maxLevel ? 1 : 0)), { padding: true })}，${format(1e6)} 云后效果变弱)`;
                 },
-                () => `Make 'Rain Clouds' boost Seas at a reduced rate and also prevent its effective level from resetting.\n(Effect: ${format(calculateEffects.S2Extra2(calculateEffects.S2Extra1(global.vaporizationInfo.trueResearchRain), 1), { padding: true })})`,
+                () => `使「积雨云」以递减的幅度加成海洋，同时使其有效等级不再在重置时清空。\n(当前效果：${format(calculateEffects.S2Extra2(calculateEffects.S2Extra1(global.vaporizationInfo.trueResearchRain), 1), { padding: true })})`,
                 () => { //[3]
                     const level = player.researchesExtra[2][3];
                     const tension = player.upgrades[2][3] === 1 ? new Overlimit(player.buildings[2][0].current).max('1').power(calculateEffects.S2Upgrade3()).toNumber() : 1;
@@ -859,14 +860,14 @@ export const global: globalType = { //For information that doesn't need to be sa
         name: [
             'Upgrade automatization',
             'Element automatization',
-            'Reset automatization'
+            '重置自动化'
         ],
         effectText: [
             () => `Automatically create all ${['Upgrades', 'Stage Researches', 'Special Researches'][Math.min(player.researchesAuto[0], 2)]} from any Stage.`,
             () => 'Elements will no longer require Collapse for activation.\nSecond level will unlock auto creation of Elements.',
             () => { //[2]
                 const index = player.inflation.vacuum ? Math.min(player.researchesAuto[2], 3) : Math.min(player.stage.current - 1, 3);
-                return `Unlock auto ${['Discharge', 'Vaporization', 'Rank', 'Collapse'][player.inflation.vacuum ? (index === 1 ? 2 : index === 2 ? 1 : index) : index]} level 1.`;
+                return `解锁 1 级自动 ${['释能', 'Vaporization', 'Rank', 'Collapse'][player.inflation.vacuum ? (index === 1 ? 2 : index === 2 ? 1 : index) : index]}。`;
             }
         ],
         costRange: [
@@ -882,7 +883,7 @@ export const global: globalType = { //For information that doesn't need to be sa
         max: [3, 2, 1]
     },
     ASRInfo: { //Auto Structures Research
-        name: 'Auto Structures',
+        name: '自动结构',
         effectText: () => {
             const stageIndex = player.stage.active;
             const index = Math.min(player.ASR[stageIndex] + 1, Math.max(global.ASRInfo.max[stageIndex], 1));
@@ -912,7 +913,7 @@ export const global: globalType = { //For information that doesn't need to be sa
                     }
                 }
             }
-            return `Automatically make ${unlocked ? global.buildingsInfo.name[stageIndex][index] : '(not unlocked)'} (counts as self-made).\n(Auto ${(stageIndex === 5 && index === 3) || stageIndex === 6 ? "for this Structure doesn't wait and ignores related settings" : `will wait until ${format(player.stage.true >= 3 ? player.toggles.shop.wait[stageIndex] : 2)} times of the Structure cost`})`;
+            return `自动购买${unlocked ? global.buildingsInfo.name[stageIndex][index] : '(尚未解锁)'} (算作购买的结构)。\n(${(stageIndex === 5 && index === 3) || stageIndex === 6 ? '对此结构的自动购买没有延迟，并忽略相关设置' : `对此结构的自动购买将等到至少拥有其价格的 ${format(player.stage.true >= 3 ? player.toggles.shop.wait[stageIndex] : 2)} 倍`})`;
         },
         costRange: [ //Random scaling
             [],
@@ -1160,7 +1161,7 @@ export const global: globalType = { //For information that doesn't need to be sa
                 'Bigger Structures',
                 'Higher density',
                 'Strange gain',
-                'Gravitational bound',
+                '引力束缚',
                 'Automatic Galaxy',
                 'Auto Structures',
                 'Automatic Stage',

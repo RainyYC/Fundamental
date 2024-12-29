@@ -331,11 +331,11 @@ export const numbersUpdate = () => {
                 }
 
                 getId(`building${i}`).classList[cost.lessOrEqual(currency) ? 'add' : 'remove']('availableBuilding');
-                getId(`building${i}Btn`).textContent = `Need: ${format(cost, { padding: true })} ${costName}`;
+                getId(`building${i}Btn`).textContent = `消耗: ${format(cost, { padding: true })} ${costName}`;
                 getId(`building${i}BuyX`).textContent = format(buy, { padding: 'exponent' });
             }
             if (active === 1) {
-                getId('reset1Button').textContent = `Next goal is ${format(global.dischargeInfo.next, { padding: 'exponent' })} Energy`;
+                getId('reset1Button').textContent = `当前目标： ${format(global.dischargeInfo.next, { padding: 'exponent' })} 能量`;
                 getQuery('#tritiumEffect > span').textContent = format(global.dischargeInfo.tritium, { padding: true });
                 getQuery('#dischargeEffect > span').textContent = format(new Overlimit(global.dischargeInfo.base).power(global.dischargeInfo.total), { padding: true });
                 getQuery('#energySpent > span').textContent = format(global.dischargeInfo.energyTrue - player.discharge.energy, { padding: 'exponent' });
@@ -344,7 +344,7 @@ export const numbersUpdate = () => {
                     getId('preonCapRatio').textContent = format(new Overlimit(global.inflationInfo.preonTrue).divide(global.inflationInfo.preonCap), { padding: true });
                 }
             } else if (active === 2) {
-                getId('reset1Button').textContent = `Reset for ${format(global.vaporizationInfo.get, { padding: true })} Clouds`;
+                getId('reset1Button').textContent = `重置为 ${format(global.vaporizationInfo.get, { padding: true })} 云`;
                 getQuery('#cloudEffect > span').textContent = format(calculateEffects.clouds(), { padding: true });
                 if (vacuum) {
                     getQuery('#molesProduction > span').textContent = format(new Overlimit(global.dischargeInfo.tritium).divide('6.02214076e23'), { padding: true });
@@ -415,7 +415,13 @@ export const numbersUpdate = () => {
 
             if (!vacuum && (active >= 6 ? player.stage.current : active) < 4) {
                 getId('stageReward').textContent = format(calculateEffects.strangeGain(false), { padding: true });
-                if (active < 4) { getId('stageReset').textContent = stageResetCheck(active) ? 'Requirements are met' : `Requires ${active === 3 ? `${format(2.45576045e31)} Mass` : active === 2 ? `${format(1.19444e29)} Drops` : `${format(1.67133125e21)} Molecules`}`; }
+                if (active < 4) {
+                    getId('stageReset').textContent =
+                        stageResetCheck(active) ? '已可重置' :
+                        `需要 ${active === 3 ?
+                            `${format(2.45576045e31)} 质量` :
+                            active === 2 ? `${format(1.19444e29)} 水滴` : `${format(1.67133125e21)} 摩尔`}`;
+                } // wtf is this
             } else { getId('stageReward').textContent = format(global.strangeInfo.quarksGain, { padding: true }); }
             getQuery('#stageTime > span').textContent = format(player.stage.time, { type: 'time' });
             getQuery('#stageTimeReal > span').textContent = format(player.time.stage, { type: 'time' });
@@ -442,7 +448,7 @@ export const numbersUpdate = () => {
             getId('strange0Gain').textContent = format(quarksGain, { padding: true });
             getId('strange1Gain').textContent = format(calculateEffects.strangeGain(interstellar, 1), { padding: true });
             getId('strangeRate').textContent = format(quarksGain / player.time.stage, { type: 'income' });
-            getId('strangePeak').textContent = interstellar ? format(player.stage.peak, { type: 'income' }) : 'Interstellar Stage only';
+            getId('strangePeak').textContent = interstellar ? format(player.stage.peak, { type: 'income' }) : '仅在星际阶段中';
             getId('strange0Cur').textContent = format(player.strange[0].current, { padding: true });
             getId('strange1Cur').textContent = format(player.strange[1].current, { padding: true });
             getId('stageTimeStrangeness').textContent = format(player.time.stage, { type: 'time' });
@@ -490,7 +496,7 @@ export const numbersUpdate = () => {
             const conversion = Math.min(exportReward[0] / 86400, 1);
             getId('exportQuarks').textContent = format((exportReward[1] / 2.5 + 1) * conversion, { padding: true });
             getId('exportStrangelets').textContent = format(exportReward[2] / 2.5 * conversion, { padding: true });
-            if (global.lastSave >= 1) { getId('isSaved').textContent = `${format(global.lastSave, { type: 'time' })} ago`; }
+            if (global.lastSave >= 1) { getId('isSaved').textContent = `${format(global.lastSave, { type: 'time' })}前`; }
         } else if (subtab.settingsCurrent === 'Stats') {
             getId('firstPlayAgo').textContent = format((Date.now() - player.time.started) / 1000, { type: 'time' });
             getId('onlineTotal').textContent = format(player.time.online, { type: 'time' });
@@ -1100,26 +1106,26 @@ export const getUpgradeDescription = (index: number, type: 'upgrades' | 'researc
     }
 
     const stageIndex = player.stage.active;
-    const costName = stageIndex === 1 ? 'Energy' : stageIndex === 2 ? 'Drops' : stageIndex === 3 ? 'Mass' : stageIndex === 6 ? 'Dark matter' : 'Elements';
+    const costName = stageIndex === 1 ? '能量' : stageIndex === 2 ? '水滴' : stageIndex === 3 ? '质量' : stageIndex === 6 ? '暗物质' : '元素';
     if (type === 'upgrades') {
         const pointer = global[`${type}Info`][stageIndex];
 
-        getId('upgradeText').textContent = `${pointer.name[index]}.`;
+        getId('upgradeText').textContent = `${pointer.name[index]}`;
         getId('upgradeEffect').textContent = pointer.effectText[index]();
-        getId('upgradeCost').textContent = player.upgrades[stageIndex][index] === 1 ? 'Created.' :
-            stageIndex === 4 && global.collapseInfo.unlockU[index] > player.collapse.mass && player.researchesExtra[5][0] < 1 ? `Unlocked at ${format(global.collapseInfo.unlockU[index])} Mass.` :
-            `${format(pointer.startCost[index])} ${costName}.`;
+        getId('upgradeCost').textContent = player.upgrades[stageIndex][index] === 1 ? '已购买' :
+            stageIndex === 4 && global.collapseInfo.unlockU[index] > player.collapse.mass && player.researchesExtra[5][0] < 1 ? `解锁于 ${format(global.collapseInfo.unlockU[index])} 质量` :
+            `${format(pointer.startCost[index])} ${costName}`;
     } else if (type === 'researches' || type === 'researchesExtra') {
         const pointer = global[`${type}Info`][stageIndex];
         const level = player[type][stageIndex][index];
         if (type === 'researchesExtra' && stageIndex === 4 && index === 0) { pointer.name[0] = ['Nova', 'Supernova', 'Hypernova'][Math.min(level, 2)]; }
 
-        getId('upgradeText').textContent = `${pointer.name[index]}.`;
+        getId('upgradeText').textContent = `${pointer.name[index]}`;
         getId('upgradeEffect').textContent = pointer.effectText[index]();
         if (level >= pointer.max[index]) {
-            getId('upgradeCost').textContent = 'Maxed.';
+            getId('upgradeCost').textContent = '已满';
         } else if (stageIndex === 4 && type === 'researches' && global.collapseInfo.unlockR[index] > player.collapse.mass && player.researchesExtra[5][0] < 1) {
-            getId('upgradeCost').textContent = `Unlocked at ${format(global.collapseInfo.unlockR[index])} Mass.`;
+            getId('upgradeCost').textContent = `解锁于 ${format(global.collapseInfo.unlockR[index])} 质量`;
         } else {
             let newLevels = 1;
             let cost = pointer.cost[index];
@@ -1141,29 +1147,29 @@ export const getUpgradeDescription = (index: number, type: 'upgrades' | 'researc
                 }
             }
 
-            getId('upgradeCost').textContent = `${format(cost)} ${costName}.${newLevels > 1 ? ` [x${format(newLevels)}]` : ''}`;
+            getId('upgradeCost').textContent = `${format(cost)} ${costName}${newLevels > 1 ? ` [x${format(newLevels)}]` : ''}`;
         }
     } else if (type === 'researchesAuto') {
         const pointer = global.researchesAutoInfo;
         let level = player.researchesAuto[index];
 
-        getId('upgradeText').textContent = `${pointer.name[index]}.`;
+        getId('upgradeText').textContent = `${pointer.name[index]}`;
         getId('upgradeEffect').textContent = pointer.effectText[index]();
         if (level >= pointer.max[index]) {
             getId('upgradeCost').textContent = 'Maxed.';
         } else {
             const autoStage = pointer.autoStage[index][level];
             if (index === 1 && player.strangeness[4][6] >= 1) { level = Math.max(level - 1, 0); }
-            getId('upgradeCost').textContent = !(autoStage === stageIndex || (stageIndex === 5 && autoStage === 4)) ? `This level can only be created while inside '${global.stageInfo.word[autoStage]}'.` :
+            getId('upgradeCost').textContent = !(autoStage === stageIndex || (stageIndex === 5 && autoStage === 4)) ? `这一级只能在 ${global.stageInfo.text[autoStage]} 中购买` :
                 `${format(pointer.costRange[index][level])} ${costName}.`;
         }
     } else if (type === 'ASR') {
         const pointer = global.ASRInfo;
         const level = player.ASR[stageIndex];
 
-        getId('upgradeText').textContent = `${pointer.name}.`;
+        getId('upgradeText').textContent = `${pointer.name}`;
         getId('upgradeEffect').textContent = pointer.effectText();
-        getId('upgradeCost').textContent = level >= pointer.max[stageIndex] ? 'Maxed.' :
+        getId('upgradeCost').textContent = level >= pointer.max[stageIndex] ? '已满' :
             stageIndex === 1 && player.upgrades[1][5] !== 1 ? "Cannot be created without 'Superposition' Upgrade" :
             stageIndex === 3 && player.accretion.rank < 1 ? "Cannot be created at 'Ocean world' Rank." :
             `${format(pointer.costRange[stageIndex][level])} ${costName}.`;
@@ -1203,7 +1209,7 @@ export const getStrangenessDescription = (index: number, stageIndex: number, typ
 export const getChallengeDescription = (index: number | null) => {
     let text;
     if (index === null) {
-        text = '<p class="whiteText">Hover to see</p>';
+        text = '<p class="whiteText">划过以显示</p>';
     } else {
         const isActive = player.challenges.active === index;
         const info = global.challengesInfo;
@@ -1432,64 +1438,64 @@ export const format = (input: number | Overlimit, settings = {} as { type?: 'num
     if (type === 'income') {
         const inputAbs = Math.abs(input);
         if (inputAbs >= 1) {
-            extra = 'per second';
+            extra = '每秒';
         } else if (inputAbs >= 1 / 60) {
             input *= 60;
-            extra = 'per minute';
+            extra = '每分钟';
         } else if (inputAbs >= 1 / 3600) {
             input *= 3600;
-            extra = 'per hour';
+            extra = '每小时';
         } else if (inputAbs >= 1 / 86400) {
             input *= 86400;
-            extra = 'per day';
+            extra = '每天';
         } else if (inputAbs >= 1 / 31556952) {
             input *= 31556952;
-            extra = 'per year';
+            extra = '每年';
         } else if (inputAbs >= 1 / 3.1556952e10) {
             input *= 3.1556952e10;
-            extra = 'per millennium';
+            extra = '每千年';
         } else if (inputAbs >= 1 / 3.1556952e13) {
             input *= 3.1556952e13;
-            extra = 'per megaannum';
+            extra = '每百万年';
         } else {
             input *= 3.1556952e16;
-            extra = 'per eon';
+            extra = '每十亿年';
         }
 
         if (padding === undefined) { padding = true; }
     } else if (type === 'time') {
         const inputAbs = Math.abs(input);
         if (inputAbs < 60) {
-            extra = 'seconds';
+            extra = '秒';
         } else if (inputAbs < 3600) {
             const minutes = Math.trunc(input / 60);
             const seconds = Math.trunc(input - minutes * 60);
-            if (padding === false && seconds === 0) { return `${minutes} minutes`; }
-            return `${minutes} minutes ${seconds} seconds`;
+            if (padding === false && seconds === 0) { return `${minutes} 分`; }
+            return `${minutes} 分 ${seconds} 秒`;
         } else if (inputAbs < 86400) {
             const hours = Math.trunc(input / 3600);
             const minutes = Math.trunc(input / 60 - hours * 60);
-            if (padding === false && minutes === 0) { return `${hours} hours`; }
-            return `${hours} hours ${minutes} minutes`;
+            if (padding === false && minutes === 0) { return `${hours} 时`; }
+            return `${hours} 时 ${minutes} 分`;
         } else if (inputAbs < 31556952) {
             const days = Math.trunc(input / 86400);
             const hours = Math.trunc(input / 3600 - days * 24);
-            if (padding === false && hours === 0) { return `${days} days`; }
-            return `${days} days ${hours} hours`;
+            if (padding === false && hours === 0) { return `${days} 天`; }
+            return `${days} 天 ${hours} 时`;
         } else if (inputAbs < 3.1556952e10) {
             const years = Math.trunc(input / 31556952);
             const days = Math.trunc(input / 86400 - years * 365.2425);
-            if (padding === false && days === 0) { return `${years} years`; }
-            return `${years} years ${days} days`;
+            if (padding === false && days === 0) { return `${years} 年`; }
+            return `${years} 年 ${days} 天`;
         } else if (inputAbs < 3.1556952e13) {
             input /= 3.1556952e10;
-            extra = 'millenniums';
+            extra = '千年';
         } else if (inputAbs < 3.1556952e16) {
             input /= 3.1556952e13;
-            extra = 'megaannums';
+            extra = '百万年';
         } else {
             input /= 3.1556952e16;
-            extra = 'eons';
+            extra = '十亿年';
         }
 
         padding = !(padding === false && Math.trunc(input) === input);
@@ -1561,7 +1567,7 @@ export const stageUpdate = (extra = 'normal' as 'normal' | 'soft' | 'reload', of
     }
 
     const stageWord = getId('stageWord');
-    stageWord.textContent = stageInfo.word[current];
+    stageWord.textContent = stageInfo.text[current];
     stageWord.style.color = `var(--${stageInfo.textColor[current]}-text)`;
     if (vacuum || active >= 4) { getId('stageReset').textContent = vacuum || (player.events[0] && highest >= 5) ? (current >= 5 ? 'Requirements are met' : "Requires '[26] Iron' Element") : 'Requirements are unknown'; }
 
@@ -1613,9 +1619,9 @@ export const stageUpdate = (extra = 'normal' as 'normal' | 'soft' | 'reload', of
     }
 
     for (const text of ['upgrade', 'element']) {
-        getId(`${text}Text`).textContent = 'Hover to see.';
-        getId(`${text}Effect`).textContent = 'Hover to see.';
-        getId(`${text}Cost`).textContent = 'Resource.';
+        getId(`${text}Text`).textContent = '划过查看';
+        getId(`${text}Effect`).textContent = '划过查看。';
+        getId(`${text}Cost`).textContent = '资源';
     }
     if (extra === 'reload') {
         global.trueActive = active;

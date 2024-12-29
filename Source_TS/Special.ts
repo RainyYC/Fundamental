@@ -95,11 +95,11 @@ export const toggleSpecial = (number: number, type: 'global' | 'mobile' | 'reade
     if (!toggles[number]) {
         toggleHTML.style.color = '';
         toggleHTML.style.borderColor = '';
-        toggleHTML.textContent = 'OFF';
+        toggleHTML.textContent = '关';
     } else {
         toggleHTML.style.color = 'var(--red-text)';
         toggleHTML.style.borderColor = 'crimson';
-        toggleHTML.textContent = 'ON';
+        toggleHTML.textContent = '开';
     }
 };
 
@@ -243,23 +243,23 @@ export const specialHTML = { //Images here are from true vacuum for easier cache
     longestFooterStats: 3,
     footerStatsHTML: [
         [], [
-            ['Energy%20mass.png', 'stage1borderImage cyanText', 'Mass'], //[2] === textcontent
-            ['Energy.png', 'stage4borderImage orangeText', 'Energy']
+            ['Energy%20mass.png', 'stage1borderImage cyanText', '质量'], //[2] === textcontent
+            ['Energy.png', 'stage4borderImage orangeText', '能量']
         ], [
-            ['Water.png', 'stage2borderImage blueText', 'Moles'],
-            ['Drop.png', 'stage2borderImage blueText', 'Drops'],
-            ['Clouds.png', 'stage3borderImage grayText', 'Clouds']
+            ['Water.png', 'stage2borderImage blueText', '摩尔'],
+            ['Drop.png', 'stage2borderImage blueText', '水滴'],
+            ['Clouds.png', 'stage3borderImage grayText', '云']
         ], [
-            ['Mass.png', 'stage3borderImage grayText', 'Mass']
+            ['Mass.png', 'stage3borderImage grayText', '质量']
         ], [
-            ['Main_sequence%20mass.png', 'stage1borderImage cyanText', 'Mass'],
-            ['Elements.png', 'stage4borderImage orangeText', 'Elements']
+            ['Main_sequence%20mass.png', 'stage1borderImage cyanText', '质量'],
+            ['Elements.png', 'stage4borderImage orangeText', '元素']
         ], [
-            ['Main_sequence%20mass.png', 'stage1borderImage cyanText', 'Mass'],
-            ['Elements.png', 'stage4borderImage orangeText', 'Elements'],
-            ['Stars.png', 'stage7borderImage redText', 'Stars']
+            ['Main_sequence%20mass.png', 'stage1borderImage cyanText', '质量'],
+            ['Elements.png', 'stage4borderImage orangeText', '元素'],
+            ['Stars.png', 'stage7borderImage redText', '星星']
         ], [
-            ['Dark%20matter.png', 'stage3borderImage grayText', 'Matter'],
+            ['Dark%20matter.png', 'stage3borderImage grayText', '物质'],
             ['Cosmon.png', 'stage6borderImage darkvioletText', 'Cosmon']
         ]
     ],
@@ -316,7 +316,7 @@ export const setTheme = (theme: number | null) => {
     globalSave.theme = theme;
     saveGlobalSettings();
     switchTheme();
-    getId('currentTheme').textContent = globalSave.theme === null ? 'Default' : global.stageInfo.word[globalSave.theme];
+    getId('currentTheme').textContent = globalSave.theme === null ? 'Default' : global.stageInfo.text[globalSave.theme];
 };
 
 export const switchTheme = () => {
@@ -768,7 +768,7 @@ export const hideFooter = () => {
         arrow.style.transform = '';
         footer.style.animation = 'hideY 800ms reverse';
         arrow.style.animation = 'rotate 800ms reverse';
-        getQuery('#hideToggle > p').textContent = 'Hide';
+        getQuery('#hideToggle > p').textContent = '收起';
         getId('stageSelect').classList.add('active');
         setTimeout(animationReset, 800);
 
@@ -777,7 +777,7 @@ export const hideFooter = () => {
     } else {
         footer.style.animation = 'hideY 800ms backwards';
         arrow.style.animation = 'rotate 800ms backwards';
-        getQuery('#hideToggle > p').textContent = 'Show';
+        getQuery('#hideToggle > p').textContent = '展开';
         getId('stageSelect').classList.remove('active');
         setTimeout(() => {
             footerArea.style.display = 'none';
@@ -902,9 +902,9 @@ export const playEvent = (event: number, index = null as number | null) => {
 
     switch (event) {
         case 1:
-            return void Alert('New reset tier has been unlocked. It will allow to reach higher tiers of Structures, but for the price of everything else');
+            return void Alert('新重置层级已解锁。以所有的一切为代价，获得探索更多级别的结构的能力。');
         case 2:
-            return void Alert(`Cloud density is too high... Any new Clouds past ${format(1e4)} will be weaker due to softcap`);
+            return void Alert(`云层密度过高，从 ${format(1e4)} 开始的云将由于软上限而变弱。`);
         case 3:
             if (index !== null) {
                 assignMaxRank();
@@ -1026,17 +1026,17 @@ export const getHotkeysHTML = () => {
     buildBigWindow();
     if (getId('hotkeysHTML', true) === null) {
         const mainHTML = document.createElement('div');
-        mainHTML.innerHTML = `<p id="hotkeysMessage" class="mainText bigWord" aria-live="assertive">Some hotkeys can be changed by clicking on them</p>
-        <label id="tabRightHotkey" class="mainText"><button></button> ‒ <span class="whiteText">change tab to the next one</span></label>
-        <label id="tabLeftHotkey" class="mainText"><button></button> ‒ <span class="whiteText">change tab to the previous one</span></label>
-        <label id="subtabUpHotkey" class="mainText"><button></button> ‒ <span class="whiteText">change subtab to the next one</span></label>
-        <label id="subtabDownHotkey" class="mainText"><button></button> ‒ <span class="whiteText">change subtab to the previous one</span></label>
-        <label id="stageRightHotkey" class="mainText"><button></button> ‒ <span class="whiteText">change active Stage to the next one</span></label>
-        <label id="stageLeftHotkey" class="mainText"><button></button> ‒ <span class="whiteText">change active Stage to the previous one</span></label>
-        <p class="mainText">Numbers ‒ <span class="whiteText">make a Structure</span></p>
-        <label id="makeAllHotkey" class="mainText">0 <span class="whiteText">or</span> <button></button> ‒ <span class="whiteText">make all Structures</span></label>
-        <p class="mainText">Shift Numbers ‒ <span class="whiteText">toggle auto Structure</span></p>
-        <label id="toggleAllHotkey" class="mainText">Shift 0 <span class="whiteText">or</span> <button></button> ‒ <span class="whiteText">toggle all auto Structures</span></label>
+        mainHTML.innerHTML = `<p id="hotkeysMessage" class="mainText bigWord" aria-live="assertive">一部分快捷键可以点击进行修改</p>
+        <label id="tabRightHotkey" class="mainText"><button></button> ‒ <span class="whiteText">切换至下一个标签页</span></label>
+        <label id="tabLeftHotkey" class="mainText"><button></button> ‒ <span class="whiteText">切换至上一个标签页</span></label>
+        <label id="subtabUpHotkey" class="mainText"><button></button> ‒ <span class="whiteText">切换至下一个子标签页</span></label>
+        <label id="subtabDownHotkey" class="mainText"><button></button> ‒ <span class="whiteText">切换至上一个子标签页</span></label>
+        <label id="stageRightHotkey" class="mainText"><button></button> ‒ <span class="whiteText">切换至下一个阶段</span></label>
+        <label id="stageLeftHotkey" class="mainText"><button></button> ‒ <span class="whiteText">切换至上一个阶段</span></label>
+        <p class="mainText">Numbers ‒ <span class="whiteText">购买结构</span></p>
+        <label id="makeAllHotkey" class="mainText">0 <span class="whiteText">or</span> <button></button> ‒ <span class="whiteText">购买所有结构</span></label>
+        <p class="mainText">Shift Numbers ‒ <span class="whiteText">开关结构自动购买</span></p>
+        <label id="toggleAllHotkey" class="mainText">Shift 0 <span class="whiteText">or</span> <button></button> ‒ <span class="whiteText">开关所有结构自动购买</span></label>
         <div>
             <label id="stageHotkey" class="stageText"><button></button> ‒ <span class="whiteText">Stage reset</span></label>
             <label id="dischargeHotkey" class="orangeText stage1Include"><button></button> ‒ <span class="whiteText">Discharge</span></label>
@@ -1048,12 +1048,12 @@ export const getHotkeysHTML = () => {
             <label id="universeHotkey" class="darkvioletText stage6Include"><button></button> ‒ <span class="whiteText">Universe</span></label>
             <label id="pauseHotkey" class="grayText"><button></button> ‒ <span class="whiteText">pause</span></label>
         </div>
-        <p class="mainText">Enter <span class="whiteText">or</span> Space ‒ <span class="whiteText">click selected HTML Element or confirm Alert</span></p>
-        <p class="mainText">Escape ‒ <span class="whiteText">cancel changing hotkey, close Alert or Notification</span></p>
-        <p class="mainText">Tab <span class="whiteText">and</span> Shift Tab ‒ <span class="whiteText">select another HTML Element</span></p>
-        <p class="mainText">Holding Enter on last selected button will repeatedly press it, also works with Mouse and Touch events on some buttons</p>
-        <label id="hotkeysToggleLabel" title="Turn ON, if using non QWERTY layout keyboard">Language dependant hotkeys </label>
-        <button id="restoreHotkeys" type="button">Restore default hotkeys values</button>`;
+        <p class="mainText">Enter <span class="whiteText">or</span> Space ‒ <span class="whiteText">模拟一次点击或确认一个弹窗</span></p>
+        <p class="mainText">Escape ‒ <span class="whiteText">取消修改快捷键，关闭一个弹窗或警告</span></p>
+        <p class="mainText">Tab <span class="whiteText">及</span> Shift Tab ‒ <span class="whiteText">选中另一个 HTML 元素</span></p>
+        <p class="mainText">在最后一个选中的按钮上按回车可以重复激活它，某些按钮对鼠标/触控持续按住也有此效果</p>
+        <label id="hotkeysToggleLabel" title="如果不是在使用 QWERTY 键盘布局，可以打开">基于键盘布局的快捷键</label>
+        <button id="restoreHotkeys" type="button">恢复默认快捷键设置</button>`;
         getQuery('#bigWindow > div').prepend(mainHTML);
         mainHTML.id = 'hotkeysHTML';
         const toggle = getId('globalToggle0');

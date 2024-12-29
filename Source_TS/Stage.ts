@@ -752,6 +752,7 @@ const gainStrange = (time: number) => {
 export const assignGlobalSpeed = () => {
     let speed = calculateEffects.inflation1();
     if (player.inflation.tree[0] >= 1) { speed *= 2; }
+    speed *= 100; // So hard this game
     global.inflationInfo.globalSpeed = speed;
 };
 
@@ -1442,16 +1443,16 @@ export const toggleSwap = (number: number, type: 'buildings' | 'normal' | 'hover
     let toggleHTML;
     if (type === 'buildings') {
         toggleHTML = getId(`toggleBuilding${number}`);
-        extraText = number === 0 ? 'All ' : 'Auto ';
+        extraText = number === 0 ? '全部 ' : '自动 ';
     } else if (type === 'hover') {
         toggleHTML = getId(`toggleHover${number}`);
-        extraText = 'Hover to create ';
+        extraText = '划过即购买 ';
     } else if (type === 'max') {
         toggleHTML = getId(`toggleMax${number}`);
-        extraText = 'Max create ';
+        extraText = '最大购买 ';
     } else if (type === 'auto') {
         toggleHTML = getId(`toggleAuto${number}`);
-        extraText = 'Auto ';
+        extraText = '自动 ';
     } else {
         toggleHTML = getId(`toggleNormal${number}`);
         extraText = '';
@@ -1460,11 +1461,11 @@ export const toggleSwap = (number: number, type: 'buildings' | 'normal' | 'hover
     if (!toggles[number]) {
         toggleHTML.style.color = 'var(--red-text)';
         toggleHTML.style.borderColor = 'crimson';
-        toggleHTML.textContent = `${extraText}OFF`;
+        toggleHTML.textContent = `${extraText}关`;
     } else {
         toggleHTML.style.color = '';
         toggleHTML.style.borderColor = '';
-        toggleHTML.textContent = `${extraText}ON`;
+        toggleHTML.textContent = `${extraText}开`;
     }
 };
 
@@ -1473,7 +1474,7 @@ export const toggleConfirm = (number: number, change = false) => {
     if (change) { toggles[number] = toggles[number] === 'Safe' ? 'None' : 'Safe'; }
 
     const toggleHTML = getId(`toggleConfirm${number}`);
-    toggleHTML.textContent = toggles[number];
+    toggleHTML.textContent = toggles[number] === 'Safe' ? '安全' : '无';
     if (toggles[number] === 'Safe') {
         toggleHTML.style.color = '';
         toggleHTML.style.borderColor = '';
