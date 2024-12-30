@@ -53,9 +53,9 @@
                                 <span class="orangeText">释能</span> <br>
                                 重置所有结构，返还所有 <span class="orangeText">能量</span> 或增加加成
                             </p>
-                            <p class="whiteText stage2Only"><span class="blueText">蒸发</span><br> 将结构和升级重置为<span class="grayText">云</span>。其获取量取决于当前<span class="blueText">水滴</span>。</p>
-                            <p class="whiteText stage3Only"><img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false" id="rankImage">Current <span class="darkorchidText">Rank</span> is <span id="rankName"></span>.<br>Resets Structures, Upgrades and Stage Researches.</p>
-                            <p class="whiteText stage4Only"><span class="orchidText">Collapse</span> resets Structures, Upgrades and all Researches for <span class="cyanText">Solar mass</span> and <span class="darkorchidText">Star remnants</span>.</p>
+                            <p class="whiteText stage2Only"><span class="blueText">蒸发</span><br>将结构和升级重置为<span class="grayText">云</span>。其获取量取决于当前<span class="blueText">水滴</span>。</p>
+                            <p class="whiteText stage3Only"><img src="Used_art/Missing.png" alt="" loading="lazy" draggable="false" id="rankImage">当前<span class="darkorchidText">段位</span>：<span id="rankName"></span><br>重置结构、升级以及阶段研究。</p>
+                            <p class="whiteText stage4Only"><span class="orchidText">坍缩</span><br>重置结构、升级与所有研究，得到<span class="cyanText">太阳质量</span>和<span class="darkorchidText">「残余」</span>。</p>
                             <p class="whiteText stage5Only" id="mergeResetText">Missing</p>
                             <button type="button" id="reset1Button" tabindex="-1">Missing</button>
                         </section>
@@ -192,19 +192,19 @@
                         </div>
                         <div class="stage3Only">
                             <p id="massProduction" class="grayText">Preons production of Mass: <span class="cyanText">0</span></p>
-                            <p id="dustSoftcap" class="grayText">Cosmic dust production is raised to the power of <span class="darkorchidText">1</span></p>
+                            <p id="dustSoftcap" class="grayText">宇宙尘效果被提升至 <span class="darkorchidText">1</span> 次幂</p>
                             <p id="dustCap" class="grayText">Cosmic dust production hardcap starts at <span class="darkorchidText">1e48</span><br aria-hidden="true">(Production to hardcap ratio is <span id="dustCapRatio" class="darkorchidText">0</span>)</p>
                             <p id="submersionBoost" class="blueText">Boost to Cosmic dust from Drops: <span class="cyanText">0</span></p>
                         </div>
                         <div class="stage4Only">
                             <p id="mainCap" class="cyanText">Solar mass from Collapse is limited to <span class="orchidText">1</span><br aria-hidden="true">(Hardcap will be reached in <span class="orchidText"><span id="mainCapTill">20</span> seconds</span>)</p>
-                            <p id="collapseBoostTotal" class="orchidText">Total boost after Collapse: <span class="cyanText">1</span></p>
+                            <p id="collapseBoostTotal" class="orchidText">坍缩后的加成：<span class="cyanText">1</span></p>
                             <section id="starEffects">
-                                <h3 class="orangeText bigWord">Current effects</h3>
-                                <p id="solarMassEffect" class="cyanText">Solar mass: <span class="greenText">0</span><span class="greenText">Boost to all Stars</span></p>
-                                <p id="star1Effect" class="redText">Red giants: <span class="greenText">0</span><span class="greenText">Boost to Main-sequence</span></p>
-                                <p id="star2Effect" class="darkvioletText">Neutron stars: <span class="greenText">0</span><span class="greenText">Boost to all Stars</span></p>
-                                <p id="star3Effect" class="grayText">Black holes: <span class="greenText">0</span><span class="greenText">Boost to Solar mass gain</span></p>
+                                <h3 class="orangeText bigWord">当前「残余」效果</h3>
+                                <p id="solarMassEffect" class="cyanText">太阳质量：<span class="greenText">0</span><span class="greenText">对所有星星加成</span></p>
+                                <p id="star1Effect" class="redText">红巨星：<span class="greenText">0</span><span class="greenText">对主序星加成</span></p>
+                                <p id="star2Effect" class="darkvioletText">中子星：<span class="greenText">0</span><span class="greenText">对所有星星加成</span></p>
+                                <p id="star3Effect" class="grayText">黑洞：<span class="greenText">0</span><span class="greenText">对太阳质量获取加成</span></p>
                             </section>
                         </div>
                         <div class="stage5Only">
@@ -414,9 +414,9 @@
                         <input type="image" src="Used_art/Element31.png" alt="Gallium" draggable="false" id="element31" class="interactiveImage elementType2" aria-labelledby="elementText elementCost elementEffect">
                     </div>
                     <div class="descriptionText">
-                        <h3>Element: <span id="elementText" class="darkorchidText">Hover to see.</span></h3>
-                        <p>Effect: <span id="elementEffect" class="blueText">Hover to see.</span></p>
-                        <p>Unlock: <span id="elementCost" class="orangeText">Resource.</span></p>
+                        <h3>元素：<span id="elementText" class="darkorchidText">划过以查看。</span></h3>
+                        <p>效果：<span id="elementEffect" class="blueText">划过以查看。</span></p>
+                        <p>价格：<span id="elementCost" class="orangeText">划过以查看。</span></p>
                     </div>
                 </section>
             </div>
@@ -1162,16 +1162,16 @@
                             <p id="maxCloudStat" class="grayText">最多云：<span class="blueText">0</span></p>
                         </div>
                         <div class="stats stage3Only">
-                            <p class="grayText">Current Rank: <span id="currentRank" class="darkorchidText">0</span></p>
+                            <p class="grayText">当前段位：<span id="currentRank" class="darkorchidText">0</span></p>
                             <div class="imageList">
-                                <img src="Used_art/Ocean%20world.png" alt="Ocean world" loading="lazy" draggable="false" title="Ocean world" id="rankStat0">
-                                <img src="Used_art/Dust.png" alt="Cosmic dust" loading="lazy" draggable="false" title="Cosmic dust" id="rankStat1">
-                                <img src="Used_art/Meteoroids.png" alt="Meteoroid" loading="lazy" draggable="false" title="Meteoroid" id="rankStat2">
-                                <img src="Used_art/Asteroid.png" alt="Asteroid" loading="lazy" draggable="false" title="Asteroid" id="rankStat3">
-                                <img src="Used_art/Planet.png" alt="Planet" loading="lazy" draggable="false" title="Planet" id="rankStat4">
-                                <img src="Used_art/Giant.png" alt="Jovian planet" loading="lazy" draggable="false" title="Jovian planet" id="rankStat5">
-                                <img src="Used_art/Protostar.png" alt="Protostar" loading="lazy" draggable="false" title="Protostar" id="rankStat6">
-                                <img src="Used_art/Protogalaxy.png" alt="Protogalaxy" loading="lazy" draggable="false" title="Protogalaxy" id="rankStat7">
+                                <img src="Used_art/Ocean%20world.png" alt="Ocean world" loading="lazy" draggable="false" title="海洋界" id="rankStat0">
+                                <img src="Used_art/Dust.png" alt="Cosmic dust" loading="lazy" draggable="false" title="宇宙尘" id="rankStat1">
+                                <img src="Used_art/Meteoroids.png" alt="Meteoroid" loading="lazy" draggable="false" title="流星体" id="rankStat2">
+                                <img src="Used_art/Asteroid.png" alt="Asteroid" loading="lazy" draggable="false" title="小行星" id="rankStat3">
+                                <img src="Used_art/Planet.png" alt="Planet" loading="lazy" draggable="false" title="行星体" id="rankStat4">
+                                <img src="Used_art/Giant.png" alt="Jovian planet" loading="lazy" draggable="false" title="巨行星" id="rankStat5">
+                                <img src="Used_art/Protostar.png" alt="Protostar" loading="lazy" draggable="false" title="原恒星" id="rankStat6">
+                                <img src="Used_art/Protogalaxy.png" alt="Protogalaxy" loading="lazy" draggable="false" title="原星系" id="rankStat7">
                             </div>
                         </div>
                         <div class="stats stage4Only">

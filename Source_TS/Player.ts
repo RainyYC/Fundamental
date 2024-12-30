@@ -371,7 +371,7 @@ export const global: globalType = { //For information that doesn't need to be sa
         maxRank: 4,
         rankCost: [5.9722e27, 1e-7, 1e10, 1e24, 5e29, 2.45576045e31, 1.98847e40],
         rankColor: ['blue', 'cyan', 'gray', 'gray', 'gray', 'darkviolet', 'orange', 'gray'],
-        rankName: ['Ocean world', 'Cosmic dust', 'Meteoroid', 'Asteroid', 'Planet', 'Jovian planet', 'Protostar', 'Protogalaxy'],
+        rankName: ['海洋界', '宇宙尘', '流星体', '小行星', '行星体', '巨行星', '原恒星', '原星系'],
         rankImage: ['Ocean%20world.png', 'Dust.png', 'Meteoroids.png', 'Asteroid.png', 'Planet.png', 'Giant.png', 'Protostar.png', 'Protogalaxy.png']
     },
     collapseInfo: {
@@ -417,8 +417,8 @@ export const global: globalType = { //For information that doesn't need to be sa
             [],
             ['Mass', '前子', '夸克', '粒子', '原子', '分子'], //[0] Must be 'Mass' // but why
             ['摩尔', '水滴', '水洼', '池塘', '湖泊', '海洋', '大洋'],
-            ['Mass', 'Cosmic dust', 'Planetesimals', 'Protoplanets', 'Satellites', 'Subsatellites'],
-            ['Elements', 'Brown dwarfs', 'Main sequence', 'Red supergiants', 'Blue hypergiants', 'Quasi-stars'],
+            ['质量', '宇宙尘', '星子', '原行星', '卫星', '子卫星'],
+            ['元素', '褐矮星', '主序星', '红超巨星', '蓝特超巨星', '准恒星'],
             ['Stars', 'Nebulas', 'Star clusters', 'Galaxies'],
             ['Dark matter', 'Universes']
         ],
@@ -426,8 +426,8 @@ export const global: globalType = { //For information that doesn't need to be sa
             [],
             ['质量', '前子', '夸克', '粒子', '原子'],
             ['Tritium', '水滴', '水洼', '池塘', '湖泊', '海洋'],
-            ['Preons hardcap', 'Cosmic dust', 'Planetesimals', 'Protoplanets', 'Satellites'],
-            ['Elements', 'Elements', 'Elements', 'Elements', 'Elements'],
+            ['前子硬上限', '宇宙尘', '星子', '原行星', '卫星'],
+            ['元素', '元素', '元素', '元素', '元素'],
             ['Interstellar Stars', 'Interstellar Stars', 'Nebulas and Star clusters'],
             ['Dark matter']
         ],
@@ -532,49 +532,49 @@ export const global: globalType = { //For information that doesn't need to be sa
             maxActive: 8
         }, { //Stage 3
             name: [
-                'Brownian motion',
-                'Gas',
-                'Micrometeoroid',
-                'Streaming instability',
-                'Gravitational field',
-                'Rubble pile',
-                'Magma ocean',
-                'Hydrostatic equilibrium',
-                'Satellite system',
-                'Atmosphere',
-                'Pebble accretion',
-                'Tidal force',
-                'Ring system'
+                '布朗运动',
+                '气态',
+                '微型流星',
+                '粒子流不稳定性',
+                '引力场',
+                '瓦砾堆',
+                '熔岩海',
+                '静力平衡',
+                '卫星系统',
+                '大气层',
+                '卵石积聚',
+                '潮汐力',
+                '环系统'
             ],
             effectText: [
-                () => `Through random collisions every self-made Cosmic dust will ${player.inflation.vacuum ? 'delay Preons hardcap even more' : 'produce even more Mass'}.\n(By ${format(calculateEffects.S3Upgrade0())} per self-made Cosmic dust)`,
-                () => `New substance for Accretion, will provide boost to Cosmic dust based on its current quantity, weaker for non self-made ones.\n(Boost: ${format(calculateEffects.S3Upgrade1(), { padding: true })})`,
-                () => 'Just a small meteoroid, but it will be a good base for what to come.\n(Unlock a new Structure and get 2x boost to Cosmic dust)',
-                () => `Small bodies will spontaneously concentrate into clumps.\n(Self-made Planetesimals will boost each other by ${format(calculateEffects.S3Upgrade3())})`,
-                () => 'Bodies will become massive enough to affect each other with gravity.\n(Unlock a new Structure and get 3x boost to Planetesimals)',
-                () => `Shattered pieces will fall back together. ${player.inflation.vacuum ? 'Preons hardcap delay' : 'Mass production'} from Cosmic dust will be increased by 3.`,
-                () => `Melt the core to increase Accretion speed.\n(Cosmic dust strength will be increased by ${format(2 * 1.5 ** player.researches[3][7])})`,
-                () => `After reaching equilibrium self-made Protoplanets will boost each other by ${format(1.02)}.`,
-                () => 'Unlock yet another Structure.',
-                () => `${player.inflation.vacuum ? 'Preons hardcap delay' : 'Mass production'} from Cosmic dust will be increased again (because of drag and escape velocity), by 2.`,
-                () => `${player.inflation.vacuum ? 'Preons hardcap delay' : 'Mass production'} from Cosmic dust will be greatly increased by ${8 * 2 ** player.researches[3][8]}.`,
-                () => `Satellites cost scaling will be 2 times smaller.${player.inflation.vacuum ? '\nAlso unlock a new Structure.' : ''}`,
-                () => 'Satellites effect will scale better.'
+                () => `每个购买的宇宙尘之间的随机碰撞使${player.inflation.vacuum ? '前子硬上限再次延后' : '质量生产获得加成'}.\n(每个购买的宇宙尘加成 ${format(calculateEffects.S3Upgrade0())})`,
+                () => `积聚新的物质，根据现有的宇宙尘数量加成其自身，非购买获得的宇宙尘此效果较弱。\n(当前效果：${format(calculateEffects.S3Upgrade1(), { padding: true })})`,
+                () => '尽管只是一颗小流星，但对于将来的某物是个不错的基底。\n(解锁一个新结构，同时宇宙尘获得 2 倍加成)',
+                () => `小块物体会自发积聚为团块。\n(购买的星子对自身加成 ${format(calculateEffects.S3Upgrade3())})`,
+                () => '物体具有足够的质量以在互相之间产生可观的引力了。\n(解锁一个新结构，同时星子获得 3 倍加成)',
+                () => `碰撞产生的碎屑会再次积聚。来自宇宙尘的${player.inflation.vacuum ? '前子硬上限延后' : '质量生产'}获得 3 倍加成。`,
+                () => `融化星核，加速积聚。\n(宇宙尘效果获得 ${format(2 * 1.5 ** player.researches[3][7])} 倍提升)`,
+                () => `由于星子的静力平衡，每个购买的星子加成自身 ${format(1.02)}。`,
+                () => '解锁一个新结构。',
+                () => `来自宇宙尘的${player.inflation.vacuum ? '前子硬上限延后' : '质量生产'}从阻力与逃逸速度中得到 2 倍加成。`,
+                () => `来自宇宙尘的${player.inflation.vacuum ? '前子硬上限延后' : '质量生产'}得到 ${8 * 2 ** player.researches[3][8]} 倍的极大加成。`,
+                () => `卫星价格增长变小 2 倍。${player.inflation.vacuum ? '\n同时解锁了一个新结构。' : ''}`,
+                () => '卫星效果增长变强'
             ],
             startCost: [1e-16, 1e-13, 1e-13, 1, 1e14, 1e17, 1e10, 1e22, 1e22, 1e23, 1e9, 1e26, 1e29],
             maxActive: 13
         }, { //Stage 4
             name: [
-                'Gravitational Collapse',
-                'Proton-proton chain',
-                'Carbon-Nitrogen-Oxygen cycle',
+                '引力坍缩',
+                '质子-质子链',
+                '碳氮氧循环',
                 'Helium fusion',
                 'Nucleosynthesis'
             ],
             effectText: [
-                () => `As fuel runs out, every Star will boost production in its own special way.\nSolar mass ${player.inflation.vacuum ? `on Collapse is Accretion Mass / ${format(1.98847e33)} and ` : ''}will not decrease if to reset bellow current. (Hover over Remnants effects to see what they boosts)`,
-                () => "Fuse with Protium instead of Deuterium. Unlock 5 first Elements. ('Elements' subtab)",
-                () => 'Unlock CNO cycle which is a better source of Helium and Energy. Unlock 5 more Elements.',
+                () => `每个星星都会在其燃料耗尽后以其独有的方式加成生产。\n太阳质量${player.inflation.vacuum ? `在坍缩时为积聚质量除以 ${format(1.98847e33)}，并且 ` : ''}在坍缩时不会变少。(划过「残余」可以看到它们的效果)`,
+                () => '聚合氕而非氘，解锁最初的 5 个「元素」。(在 元素 子标签页中)',
+                () => '碳氮氧循环是氦与能量的更好来源，再解锁 5 个「元素」。',
                 () => 'Through Triple-alpha and then Alpha process unlock 2 more Elements.',
                 () => `Create new Atomic nuclei with Neutron capture (s-process and p-process).\nUnlock 1 more Element and +1 for every self-made ${player.stage.true < 7 ? '(not unlocked)' : 'Universe'}.`
             ],
@@ -652,29 +652,29 @@ export const global: globalType = { //For information that doesn't need to be sa
             maxActive: 6
         }, { //Stage 3
             name: [
-                'More massive bodies',
-                'Adhesion',
-                'Space weathering',
-                'Inelastic collisions',
-                'Destructive collisions',
-                'Contact binary',
-                'Gravity',
-                'Planetary differentiation',
-                'Aerodynamic drag'
+                '更大的体积',
+                '黏连',
+                '太空风化',
+                '非弹性碰撞',
+                '破坏性碰撞',
+                '相接双星',
+                '重力',
+                '行星分化',
+                '空气阻力'
             ],
             effectText: [
-                () => 'Increase strength of Cosmic dust by 3.',
-                () => `Cosmic dust particles will cling to each other. (+${format(0.01)} to 'Brownian motion')`,
-                () => 'Planetesimals will produce more Cosmic dust. (3 times more)',
-                () => `Slow encounter velocities will result in a more efficient growth.\n${player.inflation.vacuum ? 'Preons hardcap delay' : 'Mass production'} from Cosmic dust will be increased by 2.`,
-                () => `Planetesimals when shatter will replenish small grains quantity.\n'Streaming instability' effect will be increased by +${format(0.005)}.`,
-                () => `Some Planetesimals instead of shattering will form a contact binary or even trinary.\n${player.inflation.vacuum ? 'Preons hardcap delay' : 'Mass production'} from Cosmic dust will be increased by 3.`,
+                () => '宇宙尘变强至 3 倍。',
+                () => `宇宙尘颗粒互相之间发生黏连。(「布朗运动」提升 ${format(0.01)})`,
+                () => '星子产生 3 倍宇宙尘。',
+                () => `低速碰撞会使体积增长变得更快。\n来自宇宙尘的${player.inflation.vacuum ? '前子硬上限延后' : '质量生产'}提升至 2 倍。`,
+                () => `星子之间的碰撞将产生大量碎屑。\n「粒子流不稳定性」效果提升 ${format(0.005)}。`,
+                () => `一部分星子演化为了双星甚至三星系统而不是互相碰撞。\n来自宇宙尘的${player.inflation.vacuum ? '前子硬上限延迟' : '质量生成'}提升至 3 倍。`,
                 () => { //[6]
                     const effect = calculateEffects.S3Research6(); //Remove 1 / result, if Overlimit.log() will allow base to be a bigger number
-                    return `Planetesimals will attract other bodies and get a boost to own production based on unspent Mass ^${format(effect > 1 ? 1 / new Overlimit(player.buildings[3][0].current).log(effect).toNumber() : 0, { padding: true })}.\n(Boost: ${format(effect, { padding: true })} ⟶ ${format(calculateEffects.S3Research6(player.researches[3][6] + 1), { padding: true })}, weaker after ${format(1e21)} Mass)`;
+                    return `星子互相吸引，基于未使用质量的 ${format(effect > 1 ? 1 / new Overlimit(player.buildings[3][0].current).log(effect).toNumber() : 0, { padding: true })} 次幂提升自身生产。\n(当前效果：${format(effect, { padding: true })} ⟶ ${format(calculateEffects.S3Research6(player.researches[3][6] + 1), { padding: true })}，在 ${format(1e21)} 质量后变弱)`;
                 },
-                () => `'Magma Ocean' will become stronger, by ${format(1.5)}.`,
-                () => `Improve 'Pebble accretion' Accretion speed even more.\n${player.inflation.vacuum ? 'Preons hardcap delay' : 'Mass production'} from Cosmic dust will increased by 2.`
+                () => `「熔岩海」效果变强至 ${format(1.5)} 倍。`,
+                () => `「卵石积聚」的积聚速度变得更快。\n来自宇宙尘的${player.inflation.vacuum ? '前子硬上限延迟' : '质量生成'}提升至 2 倍。`
             ],
             cost: [],
             startCost: [1e-16, 1e-15, 1e-5, 1e2, 1e10, 1e11, 1e15, 1e14, 1e12],
@@ -683,9 +683,9 @@ export const global: globalType = { //For information that doesn't need to be sa
             maxActive: 9
         }, { //Stage 4
             name: [
-                'Planetary system',
-                'Star system',
-                'Protoplanetary disk',
+                '行星系',
+                '恒星系',
+                '原行星盘',
                 'Planetary nebula',
                 'Gamma-ray burst',
                 'Inner Black hole'
@@ -693,13 +693,13 @@ export const global: globalType = { //For information that doesn't need to be sa
             effectText: [
                 () => { //[0]
                     const base = calculateEffects.S4Research0_base();
-                    return `From Planetesimals to Planets, will get ${format(base)}x boost to all Stars per level.\n(Total boost: ${format(calculateEffects.S4Research0(base), { padding: true })})`;
+                    return `从星子到行星，每级使所有星星获得 ${format(base)} 倍提升。\n(当前效果：${format(calculateEffects.S4Research0(base), { padding: true })})`;
                 },
                 () => { //[1]
                     const base = calculateEffects.S4Research1();
-                    return `All self-made Stars will boost each other by ${format(base)}.\n(Total boost: ${format(new Overlimit(base).power(global.collapseInfo.trueStars), { padding: true })} ⟶ ${format(new Overlimit(calculateEffects.S4Research1(player.researches[4][1] + 1)).power(global.collapseInfo.trueStars), { padding: true })})`;
+                    return `所有购买的星星互相加成 ${format(base)} 倍.\n(当前效果：${format(new Overlimit(base).power(global.collapseInfo.trueStars), { padding: true })} ⟶ ${format(new Overlimit(calculateEffects.S4Research1(player.researches[4][1] + 1)).power(global.collapseInfo.trueStars), { padding: true })})`;
                 },
-                () => `Improve effect scaling of 'Planetary system', as well increase its max level by +3.\n(Total boost from 'Planetary system' will be increased by ${format(calculateEffects.S4Research0(calculateEffects.S4Research0_base(player.researches[4][2] + 1) / calculateEffects.S4Research0_base()), { padding: true })})`,
+                () => `提升「行星系」效果增长，并使其最高等级加 3。\n(「行星系」的效果将提升 ${format(calculateEffects.S4Research0(calculateEffects.S4Research0_base(player.researches[4][2] + 1) / calculateEffects.S4Research0_base()), { padding: true })} 倍)`,
                 () => "Matter will be expelled from Red giants, this will boost Main-sequence Stars by 2, as well increase 'Planetary system' max level by +3.",
                 () => `An immensely energetic explosion that will boost all Stars by ${format(calculateEffects.S4Research4(), { padding: true })}${player.researches[4][4] < 2 ? ` ⟶ ${format(calculateEffects.S4Research4(false, player.researches[4][4] + 1), { padding: true })}` : ''}.\n(Effect will be stronger with more Black holes${player.elements[23] >= 1 ? ' and Solar mass' : ''})`,
                 () => 'Quasi-stars will Collapse into Intermediate-mass Black holes that are equivalent to +1 (Stellar) Black holes per level.'
@@ -795,20 +795,20 @@ export const global: globalType = { //For information that doesn't need to be sa
             maxActive: 3
         }, { //Stage 3
             name: [
-                'Rank boost',
-                'Efficient growth',
-                'Weight',
-                'Viscosity',
+                '段位加成',
+                '效率增长',
+                '重量',
+                '粘度',
                 'Efficient submersion'
             ],
             effectText: [
-                () => `Increase strength of Cosmic dust by another ${format(1.11)} per level. Max level is based on current Rank.\n(Total increase: ${format(1.11 ** player.researchesExtra[3][0], { padding: true })})`,
+                () => `每级使宇宙尘生产加成 ${format(1.11)}，其最高等级取决于当前段位。\n(当前效果：${format(1.11 ** player.researchesExtra[3][0], { padding: true })})`,
                 () => { //[1]
                     const base = calculateEffects.S3Extra1();
-                    return `${player.inflation.vacuum ? 'Preons hardcap delay' : 'Mass production'} from Cosmic dust will be even bigger, current formula is ${format(base)} ^ current Rank.\n(Total boost: ${format(base ** player.accretion.rank, { padding: true })} ⟶ ${format(calculateEffects.S3Extra1(player.researchesExtra[3][1] + 1) ** player.accretion.rank, { padding: true })})`;
+                    return `来自宇宙尘的${player.inflation.vacuum ? '前子硬上限延后' : '质量生产'}变得更强，当前公式为 '${format(base)} ^ 段位'。\n(当前效果：${format(base ** player.accretion.rank, { padding: true })} ⟶ ${format(calculateEffects.S3Extra1(player.researchesExtra[3][1] + 1) ** player.accretion.rank, { padding: true })})`;
                 },
-                () => "'Gravitational field' will be able to boost Protoplanets, but at reduced strength. (2x boost)",
-                () => `'Gas' will be ${format(calculateEffects.S3Upgrade1(player.researchesExtra[3][3] + 1) / calculateEffects.S3Upgrade1(), { padding: true })}x stronger per level.`,
+                () => '「引力场」能够再次以较低的效果加成星子。（2 倍加成）',
+                () => `每级使「气态」效果变强 ${format(calculateEffects.S3Upgrade1(player.researchesExtra[3][3] + 1) / calculateEffects.S3Upgrade1(), { padding: true })} 倍。`,
                 () => `Submerge quicker by boosting Puddles, improved by current Rank.\n(Current boost: ${format(calculateEffects.S3Extra4())} ⟶ ${format(calculateEffects.S3Extra4(player.researchesExtra[3][4] + 1))})`
             ],
             cost: [],
@@ -818,13 +818,13 @@ export const global: globalType = { //For information that doesn't need to be sa
             maxActive: 4
         }, { //Stage 4
             name: [
-                'Nova',
+                '新星',
                 'Mass transfer',
                 'White dwarfs',
                 'Quark-nova'
             ],
             effectText: [
-                () => `This violent stellar explosion is main source of Elements, but also starts new Star formation.\nUnlock a new Star and even more, after Collapse of that Star.\n(Will require at least ${format(global.collapseInfo.unlockB[Math.min(player.researchesExtra[4][0] + 2, 4)])} Solar mass to create that new Star)`,
+                () => `这种剧烈的恒星爆炸是元素的主要来源，也会形成新的星星。\n解锁一个新的星星，并在使其坍缩后解锁更多。\n(其解锁需要 ${format(global.collapseInfo.unlockB[Math.min(player.researchesExtra[4][0] + 2, 4)])} 太阳质量)`,
                 () => `Star material will transfer from one Star to another, improving Solar mass gain${player.inflation.vacuum ? ' (also delaying Preons hardcap)' : ''} by ${format(calculateEffects.S4Extra1())}.\nImproved by 'Star system' levels and also improves its scaling (effect increase for 'Star system' is ${format(new Overlimit(calculateEffects.S4Research1(undefined, 1) / calculateEffects.S4Research1(undefined, 0)).power(global.collapseInfo.trueStars), { padding: true })}).`,
                 () => `After matter were dispeled from Red giant, White dwarf was all that remained.\nImproves effect of '[6] Carbon' by +${format(0.5)} and increases max level of 'Star system' by +1.`,
                 () => "As Neutron stars spins down, some of them may be converted into Quark stars.\nThis will add new effect to Neutron stars ‒ all Stars are cheaper, also will increase max level of 'Star system' by +1."
@@ -928,38 +928,38 @@ export const global: globalType = { //For information that doesn't need to be sa
     },
     elementsInfo: {
         name: [
-            '[0] Neutronium',
-            '[1] Hydrogen',
-            '[2] Helium',
-            '[3] Lithium',
-            '[4] Beryllium',
-            '[5] Boron',
-            '[6] Carbon',
-            '[7] Nitrogen',
-            '[8] Oxygen',
-            '[9] Fluorine',
-            '[10] Neon',
-            '[11] Sodium',
-            '[12] Magnesium',
-            '[13] Aluminium',
-            '[14] Silicon',
-            '[15] Phosphorus',
-            '[16] Sulfur',
-            '[17] Chlorine',
-            '[18] Argon',
-            '[19] Potassium',
-            '[20] Calcium',
-            '[21] Scandium',
-            '[22] Titanium',
-            '[23] Vanadium',
-            '[24] Chromium',
-            '[25] Manganese',
-            '[26] Iron',
-            '[27] Cobalt',
-            '[28] Nickel',
-            '[29] Copper',
-            '[30] Zinc',
-            '[31] Gallium'
+            '[0] 中子素',
+            '[1] 氢',
+            '[2] 氦',
+            '[3] 锂',
+            '[4] 铍',
+            '[5] 硼',
+            '[6] 碳',
+            '[7] 氮',
+            '[8] 氧',
+            '[9] 氟',
+            '[10] 氖',
+            '[11] 钠',
+            '[12] 镁',
+            '[13] 铝',
+            '[14] 硅',
+            '[15] 磷',
+            '[16] 硫',
+            '[17] 氯',
+            '[18] 氩',
+            '[19] 钾',
+            '[20] 钙',
+            '[21] 钪',
+            '[22] 钛',
+            '[23] 钒',
+            '[24] 铬',
+            '[25] 锰',
+            '[26] 铁',
+            '[27] 钴',
+            '[28] 镍',
+            '[29] 铜',
+            '[30] 锌',
+            '[31] 镓'
         ],
         effectText: [
             () => `Element with no protons, true head of this table.\nThis one is ${Math.random() < 0.1 ? (Math.random() < 0.1 ? 'an illusive Tetraneutron, or maybe even Pentaneutron, wait where did it go? Was it even there?' : 'a rare Dineutron, but it is already gone...') : 'a simple Mononeutron, it will stay with you for as long as it can.'}`,

@@ -910,7 +910,7 @@ export const playEvent = (event: number, index = null as number | null) => {
                 assignMaxRank();
                 global.debug.rankUpdated = null;
             }
-            return void Alert("Can't gain any more Mass with current Rank. New one has been unlocked, but reaching it will softcap the Mass production");
+            return void Alert('当前阶段不能进一步获得质量了。解锁了一个新阶段，但是它将令质量生产开始软上限。');
         case 4:
             return void Alert('Last explosion not only created first Neutron stars, but also unlocked new Elements through Supernova nucleosynthesis');
         case 5:

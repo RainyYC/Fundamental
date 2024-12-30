@@ -273,19 +273,19 @@ export const numbersUpdate = () => {
                 let lockText;
                 if (active === 3) {
                     if (i > 1 && player.upgrades[3][global.accretionInfo.unlockA[i - 2]] !== 1) {
-                        lockText = 'Unlocked with Upgrade';
+                        lockText = '购买升级后解锁';
                     }
                 } else if (active === 4) {
                     if (i === 5 && player.challenges.active === 0) {
                         lockText = "Can't be created inside Void";
                     } else if (player.researchesExtra[5][0] < 1 && player.collapse.mass < global.collapseInfo.unlockB[i]) {
-                        lockText = `Unlocked at ${format(global.collapseInfo.unlockB[i])} Mass`;
+                        lockText = `在 ${format(global.collapseInfo.unlockB[i])} 元素时解锁 `;
                     }
                 }
                 if (lockText !== undefined) {
                     getId(`building${i}`).classList.remove('availableBuilding');
                     getId(`building${i}Btn`).textContent = lockText;
-                    getId(`building${i}BuyX`).textContent = 'Locked';
+                    getId(`building${i}BuyX`).textContent = '锁定';
                     continue;
                 }
 
@@ -378,7 +378,7 @@ export const numbersUpdate = () => {
                 }
 
                 if (active === 4) {
-                    getId('reset1Button').textContent = `Collapse is at ${format(collapseInfo.newMass, { padding: true })} Mass`;
+                    getId('reset1Button').textContent = `坍缩为 ${format(collapseInfo.newMass, { padding: true })} 质量`;
                     getQuery('#solarMassEffect > span').textContent = format(massEffect, { padding: true });
                     for (let i = 0; i < 3; i++) {
                         getId(`special${i + 1}Cur`).textContent = format(player.collapse.stars[i], { padding: 'exponent' });
@@ -1097,11 +1097,11 @@ export const getUpgradeDescription = (index: number, type: 'upgrades' | 'researc
     if (type === 'elements') {
         const pointer = global.elementsInfo;
 
-        getId('elementText').textContent = `${pointer.name[index]}.`;
-        getId('elementEffect').textContent = player.elements[index] >= 1 || (player.collapse.show >= index && index !== 0) ? pointer.effectText[index]() : 'Effect is not yet known.';
-        getId('elementCost').textContent = player.elements[index] >= 1 ? 'Obtained.' :
-            player.elements[index] > 0 ? 'Awaiting Collapse.' :
-            index === 0 ? 'Unknown.' : `${format(pointer.startCost[index])} Elements.`;
+        getId('elementText').textContent = `${pointer.name[index]}`;
+        getId('elementEffect').textContent = player.elements[index] >= 1 || (player.collapse.show >= index && index !== 0) ? pointer.effectText[index]() : '效果仍未探明。';
+        getId('elementCost').textContent = player.elements[index] >= 1 ? '已拥有' :
+            player.elements[index] > 0 ? '等待坍缩' :
+            index === 0 ? '未知' : `${format(pointer.startCost[index])} 元素`;
         return;
     }
 
@@ -1118,7 +1118,7 @@ export const getUpgradeDescription = (index: number, type: 'upgrades' | 'researc
     } else if (type === 'researches' || type === 'researchesExtra') {
         const pointer = global[`${type}Info`][stageIndex];
         const level = player[type][stageIndex][index];
-        if (type === 'researchesExtra' && stageIndex === 4 && index === 0) { pointer.name[0] = ['Nova', 'Supernova', 'Hypernova'][Math.min(level, 2)]; }
+        if (type === 'researchesExtra' && stageIndex === 4 && index === 0) { pointer.name[0] = ['新星', '超新星', '极超新星'][Math.min(level, 2)]; }
 
         getId('upgradeText').textContent = `${pointer.name[index]}`;
         getId('upgradeEffect').textContent = pointer.effectText[index]();
@@ -1171,7 +1171,7 @@ export const getUpgradeDescription = (index: number, type: 'upgrades' | 'researc
         getId('upgradeEffect').textContent = pointer.effectText();
         getId('upgradeCost').textContent = level >= pointer.max[stageIndex] ? '已满' :
             stageIndex === 1 && player.upgrades[1][5] !== 1 ? "Cannot be created without 'Superposition' Upgrade" :
-            stageIndex === 3 && player.accretion.rank < 1 ? "Cannot be created at 'Ocean world' Rank." :
+            stageIndex === 3 && player.accretion.rank < 1 ? '无法在「海洋界」段位中购买' :
             `${format(pointer.costRange[stageIndex][level])} ${costName}.`;
     }
 };
@@ -1366,7 +1366,7 @@ const updateRankInfo = () => {
     const rankInfo = global.accretionInfo;
     const name = getId('rankName');
 
-    getId('reset1Button').textContent = rank >= rankInfo.maxRank ? 'Max Rank achieved' : `Next Rank is ${format(rankInfo.rankCost[rank])} Mass`;
+    getId('reset1Button').textContent = rank >= rankInfo.maxRank ? '已达最高段位' : `下一段位需要 ${format(rankInfo.rankCost[rank])} 质量`;
     (getId('rankImage') as HTMLImageElement).src = `Used_art/${rankInfo.rankImage[rank]}`;
     name.textContent = rankInfo.rankName[rank];
     name.style.color = `var(--${rankInfo.rankColor[rank]}-text)`;
@@ -1569,7 +1569,7 @@ export const stageUpdate = (extra = 'normal' as 'normal' | 'soft' | 'reload', of
     const stageWord = getId('stageWord');
     stageWord.textContent = stageInfo.text[current];
     stageWord.style.color = `var(--${stageInfo.textColor[current]}-text)`;
-    if (vacuum || active >= 4) { getId('stageReset').textContent = vacuum || (player.events[0] && highest >= 5) ? (current >= 5 ? 'Requirements are met' : "Requires '[26] Iron' Element") : 'Requirements are unknown'; }
+    if (vacuum || active >= 4) { getId('stageReset').textContent = vacuum || (player.events[0] && highest >= 5) ? (current >= 5 ? '要求已满足' : '需要元素「[26] 铁」') : '要求未探明'; }
 
     getId('stageSelect').style.display = activeAll.length > 1 ? '' : 'none';
     if (highest < 7) {
